@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="polowijo.gosari.bongkar.muat.UI.MASTER.MASTER_MENU"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:polowijo.gosari.bongkar.muat.UI.MASTER"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="780">
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50*"></RowDefinition>
+            <RowDefinition Height="50*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50*"></ColumnDefinition>
+            <ColumnDefinition Width="50*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <DockPanel Grid.Row="0" Grid.Column="1">
+            <Button Height="Auto" Margin="50" Background="#FF245E97">
+                <StackPanel>
+                    <Image Source="/Resources/Image/Item.png" MaxHeight="100" MaxWidth="100"></Image>
+                    <TextBlock FontFamily="Arial" Foreground="white" FontSize="40" VerticalAlignment="Center" HorizontalAlignment="Center">Barang</TextBlock>
+                </StackPanel>
+            </Button>
+        </DockPanel>
+        <DockPanel Grid.Row="0" Grid.Column="0">
+            <Button x:Name="Btn_Master_Pekerja" Height="Auto" Margin="50" Background="#FF245E97" Click="Btn_Master_Pekerja_Click">
+                <StackPanel>
+                    <Image Source="/Resources/Image/Pegawai.png" MaxHeight="100" MaxWidth="100"></Image>
+                    <TextBlock FontFamily="Arial" Foreground="White" FontSize="40" VerticalAlignment="Center" HorizontalAlignment="Center">Pekerja</TextBlock>
+                </StackPanel>
+            </Button>
+        </DockPanel>
+        <DockPanel Grid.Row="1" Grid.Column="0">
+            <Button Height="Auto" Margin="50" Background="#FF245E97">
+                <StackPanel>
+                    <Image Source="/Resources/Image/Supplier.png" MaxHeight="100" MaxWidth="100"></Image>
+                    <TextBlock FontFamily="Arial" Foreground="white" FontSize="40" VerticalAlignment="Center" HorizontalAlignment="Center">Supplier</TextBlock>
+                </StackPanel>
+            </Button>
+        </DockPanel>
+    </Grid>
+</UserControl>
