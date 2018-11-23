@@ -11,5 +11,7 @@ namespace polowijo.gosari.DAL.IServices
     {
         List<master_petugas> GetAll();
         void Save(MasterPetugasDto Dto);
+        master_petugas GetById(decimal Id);
+        void DeleteById(decimal Id);
     }
 }

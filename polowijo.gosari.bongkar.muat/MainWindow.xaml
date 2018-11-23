@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:polowijo.gosari.bongkar.muat"
         xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:controls="clr-namespace:polowijo.gosari.bongkar.muat.UI.HOME"
-        mc:Ignorable="d" MinHeight="600" MinWidth="1000" Height="600" Width="1000" WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow" ResizeMode="CanResize" Foreground="White">
+        mc:Ignorable="d" MinHeight="600" MinWidth="1000" Height="600" Width="1000" WindowStartupLocation="CenterScreen" WindowStyle="ThreeDBorderWindow" ResizeMode="CanResize" Foreground="White" Closed="Window_Closed">
     <Window.Resources>
         <Storyboard x:Key="MenuOpen">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu" >
@@ -51,7 +51,7 @@
         </Grid>
         <Grid x:Name="GridMenu" Width="200" HorizontalAlignment="Left" Background="#FF245E97">
             <StackPanel>
-                <StackPanel Height="100" Background="#FF245E97">
+                <StackPanel Height="70" Background="#FF245E97">
                     <Grid Height="150" >
                         <Button x:Name="ButtonCloseMenu" Width="60" Height="60" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Top" HorizontalAlignment="Left"  Click="ButtonCloseMenu_Click">
                             <materialdesign:PackIcon Kind="ArrowLeft" Foreground="White" Width="30" ></materialdesign:PackIcon>

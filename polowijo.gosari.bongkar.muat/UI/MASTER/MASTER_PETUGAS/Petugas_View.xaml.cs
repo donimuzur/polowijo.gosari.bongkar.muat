@@ -27,10 +27,16 @@ namespace polowijo.gosari.bongkar.muat.UI.MASTER.MASTER_PETUGAS
     {
         private IPekerjaServices _pekerjaServices;
         private Window _insertWindow;
+        private Window _detailsWindow;
+        private ICollectionView _data;
+        Dictionary<string, Predicate<MasterPetugasDto>> filters
+        = new Dictionary<string, Predicate<MasterPetugasDto>>();
         public Petugas_View()
         {
             _pekerjaServices = new PekerjaServices();
+
             _insertWindow = new Petugas_Insert();
+            _detailsWindow = new Petugas_Details(0);
 
             InitializeComponent();
             Init();
@@ -90,7 +96,35 @@ namespace polowijo.gosari.bongkar.muat.UI.MASTER.MASTER_PETUGAS
         private void PopulateData()
         {
             var Data = AutoMapper.Mapper.Map<List<MasterPetugasDto>>(_pekerjaServices.GetAll());
-            Dgv_Home.ItemsSource = Data;
+            _data = CollectionViewSource.GetDefaultView(Data);
+
+            _data.Filter = new Predicate<object>(FilterCandidates); 
+           
+            Dgv_Home.ItemsSource = _data;
+        }
+        private bool FilterCandidates(object obj)
+        {
+            MasterPetugasDto c = (MasterPetugasDto)obj;
+            return filters.Values
+                .Aggregate(true,
+                    (prevValue, predicate) => prevValue && predicate(c));
+        }
+        private void AddFilterAndRefresh(string name, Predicate<MasterPetugasDto> predicate)
+        {
+            filters.Add(name, predicate);
+            _data.Refresh();
+        }
+        
+        private void Filter_Click(object sender, RoutedEventArgs e)
+        {
+            filters.Clear();
+            AddFilterAndRefresh("NAMA_PETUGAS", candidate => !string.IsNullOrWhiteSpace(candidate.NAMA_PETUGAS) && candidate.NAMA_PETUGAS.Contains(Filter_NamaPetugas.Text));
+        }
+
+        private void Reset_Click(object sender, RoutedEventArgs e)
+        {
+            Filter_NamaPetugas.Text = "";
+            _data.Refresh();
         }
         private void Tambah_Click(object sender, RoutedEventArgs e)
         {
@@ -101,26 +135,44 @@ namespace polowijo.gosari.bongkar.muat.UI.MASTER.MASTER_PETUGAS
                 PopulateData();
             }
         }
-
-        private void Filter_Click(object sender, RoutedEventArgs e)
+        private void Edit_Click(object sender, RoutedEventArgs e)
         {
-            var _itemSourceList = new CollectionViewSource() { Source = Dgv_Home.ItemsSource };
-            var Filter = Filter_NamaPetugas.Text;
-
-            // ICollectionView the View/UI part 
-            ICollectionView Itemlist = _itemSourceList.View;
-
-            // your Filter
-            var yourCostumFilter = new Predicate<object>(item => ((MasterPetugasDto)item).NAMA_PETUGAS.Contains(Filter));
-
-            //now we add our Filter
-            Itemlist.Filter = yourCostumFilter;
-            Dgv_Home.ItemsSource = Itemlist;
+            var idx =(MasterPetugasDto) Dgv_Home.SelectedItem;
+            if (idx == null)
+                MessageBox.Show("Tidak ada data yg dipilih", "Warning", MessageBoxButton.OK,MessageBoxImage.Warning);
+            else
+            {
+                _detailsWindow = new Petugas_Details(idx.ID);
+                var result = _detailsWindow.ShowDialog();
+                if (result == true)
+                {
+                    PopulateData();
+                }
+            }
+           
         }
 
-        private void Reset_Click(object sender, RoutedEventArgs e)
+        private void Hapus_Click(object sender, RoutedEventArgs e)
         {
-            PopulateData();
+            var idx = (MasterPetugasDto)Dgv_Home.SelectedItem;
+            if (idx == null)
+                MessageBox.Show("Tidak ada data yg dipilih", "Warning!", MessageBoxButton.OK,MessageBoxImage.Warning);
+            else
+            {
+                var Result = MessageBox.Show("Apakah and ingin menghapus data ini ?", "Info!", MessageBoxButton.YesNo,MessageBoxImage.Information);
+                if(Result == MessageBoxResult.Yes)
+                {
+                    try
+                    {
+                        _pekerjaServices.DeleteById(idx.ID);
+                        MessageBox.Show("Sukses Hapus Data", "Sukses", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    catch (Exception exp)
+                    {
+                        MessageBox.Show("Error Hapus Data", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
         }
     }
 }

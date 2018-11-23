@@ -46,7 +46,7 @@ namespace polowijo.gosari.bongkar.muat
         {
             if (MessageBox.Show("Are you sure ?", "Message", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
-                Close();
+                System.Windows.Application.Current.Shutdown();
             }
             else
             {
@@ -96,6 +96,11 @@ namespace polowijo.gosari.bongkar.muat
             {
                 MainView.Children.Clear();
             }
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
         }
     }
 }

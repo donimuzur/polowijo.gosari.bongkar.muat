@@ -23,6 +23,12 @@ namespace polowijo.gosari.DAL.Services
             _masterPetugasRepo = Uow.GetGenericRepository<master_petugas>();
             return _masterPetugasRepo.Get().ToList();
         }
+        public master_petugas GetById(decimal Id)
+        {
+            Uow = new UnitOfWorks();
+            _masterPetugasRepo = Uow.GetGenericRepository<master_petugas>();
+            return _masterPetugasRepo.GetByID(Id);
+        }
         public void Save(MasterPetugasDto Dto)
         {
             var Db = AutoMapper.Mapper.Map<master_petugas>(Dto);
@@ -31,6 +37,14 @@ namespace polowijo.gosari.DAL.Services
             _masterPetugasRepo = Uow.GetGenericRepository<master_petugas>();
 
             _masterPetugasRepo.InsertOrUpdate(Db);
+            Uow.SaveChanges();
+        }
+        public void DeleteById(decimal Id)
+        {
+            Uow = new UnitOfWorks();
+            _masterPetugasRepo = Uow.GetGenericRepository<master_petugas>();
+
+            _masterPetugasRepo.Delete(Id);
             Uow.SaveChanges();
         }
     }

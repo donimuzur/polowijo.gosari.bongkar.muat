@@ -51,8 +51,8 @@
         <Grid Grid.Row="1" Grid.Column="0">
             <!--#region ~~~~ DataGridView ~~~~ -->
             <DockPanel Margin="0,0,100,0" >
-                <DataGrid x:Name="Dgv_Home" IsReadOnly="True" CanUserReorderColumns="False" CanUserResizeColumns="False">
-                    
+                <DataGrid x:Name="Dgv_Home" ColumnWidth="*" IsReadOnly="True" CanUserReorderColumns="False" CanUserResizeColumns="False">
+               
                 </DataGrid>
 
             </DockPanel>
@@ -61,8 +61,8 @@
             <!--#region ~~~~ CRUD ~~~~-->
             <StackPanel Grid.Row="1" Grid.Column="0" Background="AliceBlue" HorizontalAlignment="Right" Width="100">
                 <Button x:Name="Tambah" FontSize="14" Width="90" Margin="5" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Tambah_Click">Tambah</Button>
-                <Button FontSize="14" Width="90" Margin="5" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center">Edit</Button>
-                <Button FontSize="14" Width="90" Margin="5" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center">Hapus</Button>
+                <Button x:Name="Edit" FontSize="14" Width="90" Margin="5" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Edit_Click">Edit</Button>
+                <Button x:Name="Hapus" FontSize="14" Width="90" Margin="5" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Hapus_Click">Hapus</Button>
             </StackPanel>
             <!--#endregion-->
         </Grid>
