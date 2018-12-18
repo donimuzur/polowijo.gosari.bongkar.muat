@@ -24,7 +24,7 @@ namespace polowijo.gosari.bongkar.muat.UI.MASTER.MASTER_PETUGAS
     public partial class Petugas_Details : Window
     {
         private IPekerjaServices _pekerjaService;
-        public Petugas_Details(decimal Id)
+        public Petugas_Details(int Id)
         {
             _pekerjaService = new PekerjaServices();
 
@@ -52,27 +52,37 @@ namespace polowijo.gosari.bongkar.muat.UI.MASTER.MASTER_PETUGAS
         {
             try
             {
+                if (string.IsNullOrEmpty(NamaPetugas.Text))
+                {
+                    MessageBox.Show("Nama Petugas tidak boleh kosong","Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                };
+
                 var Dto = new MasterPetugasDto();
                 Dto.NAMA_PETUGAS = NamaPetugas.Text;
                 Dto.HANDPHONE = Handphone.Text;
                 Dto.FIRST_NAME = FirstName.Text;
                 Dto.ALAMAT = Alamat.Text;
                 Dto.LAST_NAME = LastName.Text;
-                Dto.ID = Convert.ToDecimal(IdPetugas.Text);
+                Dto.ID = int.Parse(IdPetugas.Text);
                 Dto.STATUS = (Status)StatusPetugas.SelectedItem;
                 _pekerjaService.Save(Dto);
-                MessageBox.Show("Update Data Sukses", "Sukses");
+                MessageBox.Show("Update Data Sukses", "Sukses", MessageBoxButton.OK, MessageBoxImage.Information);
                 CloseWin();
             }
             catch (Exception exp)
             {
-                MessageBox.Show("Update Data Error", "Error");
+                MessageBox.Show("Update Data Error", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             
         }
         private void Btn_Batal_Click(object sender, RoutedEventArgs e)
         {
             CloseWin();
+        }
+
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
         }
     }
 }

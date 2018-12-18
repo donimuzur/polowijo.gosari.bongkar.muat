@@ -1,0 +1,128 @@
+﻿<UserControl x:Class="polowijo.gosari.bongkar.muat.UI.MASTER.MASTER_ITEM.Item_View"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:polowijo.gosari.bongkar.muat.UI.MASTER.MASTER_ITEM"
+             xmlns:local1="clr-namespace:polowijo.gosari.Core;assembly=polowijo.gosari.Core"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="780">
+
+    <!--#region ~~~~ Style ~~~~-->
+    <UserControl.Resources>
+        <local1:EnumDescriptionConverter x:Key="EnumDescriptionConverter"></local1:EnumDescriptionConverter>
+        <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type System:Enum}" x:Key="Status">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type Type="local1:Status" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type System:Enum}" x:Key="ItemType">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type Type="local1:ItemType" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type System:Enum}" x:Key="ActionType">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type Type="local1:ActionType" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <Style x:Key="GroupHeaderStyle" TargetType="{x:Type GroupItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                        <Expander x:Name="Expander" IsExpanded="True" Background="White" Foreground="Black" >
+                            <Expander.Header>
+                                <TextBlock  Text="{Binding Name}" FontFamily="Arial" FontWeight="Bold"></TextBlock>
+                            </Expander.Header>
+                            <ItemsPresenter></ItemsPresenter>
+                        </Expander>
+                    </ControlTemplate>
+                </Setter.Value> 
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+  
+    <!--#endregion-->
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!--#region ~~~~ Filter Area ~~~~ -->
+        <DockPanel Grid.Row="0" Grid.Column="0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="25*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5">
+                    <StackPanel Orientation="Horizontal" Margin="10,0,0,0"  HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <TextBlock Width="75" Foreground="Black" Text="Nama Barang" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        <TextBox x:Name="Filter_NamaBarang" Margin="10,0,0,0" Width="120" Foreground="Black"></TextBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="30,0,0,0"  HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <TextBlock Width="75" Foreground="Black" Text="Jenis Barang" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        <ComboBox x:Name="Filter_JenisBarang" SelectedIndex="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" Width="200" Background="White" Foreground="Black">
+                            <ComboBox.ItemsSource>
+                                <CompositeCollection>
+                                    <ComboBoxItem Content="All" />
+                                    <CollectionContainer Collection="{Binding Source={StaticResource ItemType}}" />
+                                </CompositeCollection>
+                            </ComboBox.ItemsSource>
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Converter={StaticResource EnumDescriptionConverter}}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4">
+                    <StackPanel Orientation="Horizontal" Margin="238,0,0,0" >
+                        <Button x:Name="Filter" FontSize="12" Width="60" Margin="5" Height="30" Click="Filter_Click" >Filter</Button>
+                        <Button x:Name="Reset" FontSize="12" Width="60" Margin="5" Height="30" Click="Reset_Click" >Reset</Button>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </DockPanel>
+        <!--#endregion-->
+
+        <Grid Grid.Row="1" Grid.Column="0">
+            <!--#region ~~~~ DataGridView ~~~~ -->
+            <DockPanel Margin="0,0,100,0" >
+                <DataGrid x:Name="Dgv_Home" IsReadOnly="True" CanUserReorderColumns="False" CanUserResizeColumns="False">
+                    <DataGrid.GroupStyle>
+                        <GroupStyle ContainerStyle="{StaticResource GroupHeaderStyle}">
+                            <GroupStyle.Panel>
+                                <ItemsPanelTemplate>
+                                    <DataGridRowsPresenter/>
+                                </ItemsPanelTemplate>
+                            </GroupStyle.Panel>
+                        </GroupStyle>
+                    </DataGrid.GroupStyle>
+
+                </DataGrid>
+
+            </DockPanel>
+            <!--#endregion-->
+
+            <!--#region ~~~~ CRUD ~~~~-->
+            <StackPanel Grid.Row="1" Grid.Column="0" Background="AliceBlue" HorizontalAlignment="Right" Width="100">
+                <Button x:Name="Tambah" FontSize="14" Width="90" Margin="5" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Tambah_Click">Tambah</Button>
+                <Button x:Name="Edit" FontSize="14" Width="90" Margin="5" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Edit_Click">Edit</Button>
+                <Button x:Name="Hapus" FontSize="14" Width="90" Margin="5" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Hapus_Click">Hapus</Button>
+            </StackPanel>
+            <!--#endregion-->
+        </Grid>
+    </Grid>
+</UserControl>

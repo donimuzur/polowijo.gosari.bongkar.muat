@@ -59,6 +59,7 @@ namespace polowijo.gosari.bongkar.muat.UI.MASTER.MASTER_PETUGAS
             DataGridTextColumn LastName = new DataGridTextColumn();
             DataGridTextColumn FirstName = new DataGridTextColumn();
             DataGridTextColumn Id = new DataGridTextColumn();
+            DataGridTextColumn dummy = new DataGridTextColumn();
 
             Binding StatusBinding = new Binding("STATUS");
             StatusBinding.Converter = new EnumDescriptionConverter();
@@ -86,6 +87,14 @@ namespace polowijo.gosari.bongkar.muat.UI.MASTER.MASTER_PETUGAS
             Dgv_Home.Columns.Add(StatusPerkawinan);
             Dgv_Home.Columns.Add(Status);
             Dgv_Home.Columns.Add(Id);
+            Dgv_Home.Columns.Add(dummy);
+
+            NamaPetugas.Width = 500;
+            FirstName.Width = 300;
+            LastName.Width = 300;
+            Handphone.Width = 300;
+            Status.Width = 500;
+            dummy.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
 
             Id.Visibility = Visibility.Hidden;
             StatusPerkawinan.Visibility = Visibility.Hidden;
@@ -118,7 +127,7 @@ namespace polowijo.gosari.bongkar.muat.UI.MASTER.MASTER_PETUGAS
         private void Filter_Click(object sender, RoutedEventArgs e)
         {
             filters.Clear();
-            AddFilterAndRefresh("NAMA_PETUGAS", candidate => !string.IsNullOrWhiteSpace(candidate.NAMA_PETUGAS) && candidate.NAMA_PETUGAS.Contains(Filter_NamaPetugas.Text));
+            AddFilterAndRefresh("NAMA_PETUGAS", candidate => !string.IsNullOrWhiteSpace(candidate.NAMA_PETUGAS) && (candidate.NAMA_PETUGAS == null ? "".Contains(Filter_NamaPetugas.Text):candidate.NAMA_PETUGAS.ToUpper().Contains(Filter_NamaPetugas.Text.ToUpper())));
         }
 
         private void Reset_Click(object sender, RoutedEventArgs e)
@@ -166,12 +175,21 @@ namespace polowijo.gosari.bongkar.muat.UI.MASTER.MASTER_PETUGAS
                     {
                         _pekerjaServices.DeleteById(idx.ID);
                         MessageBox.Show("Sukses Hapus Data", "Sukses", MessageBoxButton.OK, MessageBoxImage.Information);
+                        PopulateData();
                     }
                     catch (Exception exp)
                     {
                         MessageBox.Show("Error Hapus Data", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
+            }
+        }
+
+        private void Filter_NamaPetugas_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                Filter_Click(sender, e);
             }
         }
     }

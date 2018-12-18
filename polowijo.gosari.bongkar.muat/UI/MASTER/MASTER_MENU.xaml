@@ -16,7 +16,7 @@
             <ColumnDefinition Width="50*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <DockPanel Grid.Row="0" Grid.Column="1">
-            <Button Height="Auto" Margin="50" Background="#FF245E97">
+            <Button x:Name="Btn_Master_Item" Height="Auto" Margin="50" Background="#FF245E97" Click="Btn_Master_Item_Click">
                 <StackPanel>
                     <Image Source="/Resources/Image/Item.png" MaxHeight="100" MaxWidth="100"></Image>
                     <TextBlock FontFamily="Arial" Foreground="white" FontSize="40" VerticalAlignment="Center" HorizontalAlignment="Center">Barang</TextBlock>
@@ -32,10 +32,18 @@
             </Button>
         </DockPanel>
         <DockPanel Grid.Row="1" Grid.Column="0">
-            <Button Height="Auto" Margin="50" Background="#FF245E97">
+            <Button x:Name="Btn_Master_Supplier" Height="Auto" Margin="50" Background="#FF245E97" Click="Btn_Master_Supplier_Click">
                 <StackPanel>
                     <Image Source="/Resources/Image/Supplier.png" MaxHeight="100" MaxWidth="100"></Image>
                     <TextBlock FontFamily="Arial" Foreground="white" FontSize="40" VerticalAlignment="Center" HorizontalAlignment="Center">Supplier</TextBlock>
+                </StackPanel>
+            </Button>
+        </DockPanel>
+        <DockPanel Grid.Row="1" Grid.Column="1">
+            <Button x:Name="Btn_Master_Transport" Height="Auto" Margin="50" Background="#FF245E97" Click="Btn_Master_Transport_Click">
+                <StackPanel>
+                    <Image Source="/Resources/Image/Truck.png" MaxHeight="100" MaxWidth="100"></Image>
+                    <TextBlock FontFamily="Arial" Foreground="white" FontSize="40" VerticalAlignment="Center" HorizontalAlignment="Center">Transport</TextBlock>
                 </StackPanel>
             </Button>
         </DockPanel>

@@ -78,6 +78,7 @@ namespace polowijo.gosari.bongkar.muat
                 if(MainView != null)
                 {
                     MainView.Children.Clear();
+                    _homeView = new Home_View();
                     MainView.Children.Add(_homeView);
 
                     CaptionHeader.Text = "Bongkar & Muat Barang";
@@ -86,6 +87,7 @@ namespace polowijo.gosari.bongkar.muat
             else if (IdxSelected == 1)
             {
                 MainView.Children.Clear();
+                _masterMenu = new MASTER_MENU();
                 MainView.Children.Add(_masterMenu);
             }
             else if (IdxSelected == 2)

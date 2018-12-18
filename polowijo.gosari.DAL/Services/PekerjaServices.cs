@@ -23,7 +23,7 @@ namespace polowijo.gosari.DAL.Services
             _masterPetugasRepo = Uow.GetGenericRepository<master_petugas>();
             return _masterPetugasRepo.Get().ToList();
         }
-        public master_petugas GetById(decimal Id)
+        public master_petugas GetById(int Id)
         {
             Uow = new UnitOfWorks();
             _masterPetugasRepo = Uow.GetGenericRepository<master_petugas>();
@@ -39,7 +39,7 @@ namespace polowijo.gosari.DAL.Services
             _masterPetugasRepo.InsertOrUpdate(Db);
             Uow.SaveChanges();
         }
-        public void DeleteById(decimal Id)
+        public void DeleteById(int Id)
         {
             Uow = new UnitOfWorks();
             _masterPetugasRepo = Uow.GetGenericRepository<master_petugas>();

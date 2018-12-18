@@ -26,5 +26,10 @@ namespace polowijo.gosari.DAL
         }
     
         public DbSet<master_petugas> master_petugas { get; set; }
+        public DbSet<master_supplier> master_supplier { get; set; }
+        public DbSet<master_item> master_item { get; set; }
+        public DbSet<trn_bongkar_muat> trn_bongkar_muat { get; set; }
+        public DbSet<trn_bongkat_muat_details_pekerja> trn_bongkat_muat_details_pekerja { get; set; }
+        public DbSet<master_transport> master_transport { get; set; }
     }
 }

@@ -43,21 +43,42 @@ namespace polowijo.gosari.bongkar.muat.UI.MASTER.MASTER_PETUGAS
         {
             try
             {
+                if (string.IsNullOrEmpty(NamaPetugas.Text))
+                {
+                    MessageBox.Show("Nama Petugas tidak boleh kosong", "Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    return;
+                };
+
                 var Dto = new MasterPetugasDto();
                 Dto.NAMA_PETUGAS = NamaPetugas.Text;
                 Dto.HANDPHONE = Handphone.Text;
                 Dto.FIRST_NAME = FirstName.Text;
                 Dto.ALAMAT = Alamat.Text;
                 Dto.LAST_NAME = LastName.Text;
+                Dto.STATUS = Core.Status.Aktif;
 
                 _pekerjaService.Save(Dto);
-                MessageBox.Show("Save Data Sukses", "Sukses");
+
+                MessageBox.Show("Save Data Sukses", "Sukses", MessageBoxButton.OK, MessageBoxImage.Information);
                 CloseWin();
             }
             catch (Exception exp)
             {
-                MessageBox.Show("Save Data Error", "Error");
+                MessageBox.Show("Save Data Error", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
+        private void Handphone_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !IsValid(((TextBox)sender).Text + e.Text);
+        }
+        public static bool IsValid(string str)
+        {
+            long i;
+            return long.TryParse(str, out i) && i >= 0;
         }
     }
 }

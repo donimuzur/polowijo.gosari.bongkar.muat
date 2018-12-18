@@ -67,16 +67,39 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DBEntities.edmx</DependentUpon>
     </Compile>
+    <Compile Include="IServices\IItemServices.cs" />
     <Compile Include="IServices\IPekerjaServices.cs" />
     <Compile Include="IServices\ISqlGenericRepository.cs" />
+    <Compile Include="IServices\ISupplierServices.cs" />
+    <Compile Include="IServices\ITransportServices.cs" />
+    <Compile Include="IServices\ITRNBongkarMuatServices.cs" />
     <Compile Include="IServices\IUnitOfWorks.cs" />
+    <Compile Include="master_item.cs">
+      <DependentUpon>DBEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="master_petugas.cs">
       <DependentUpon>DBEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="master_supplier.cs">
+      <DependentUpon>DBEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="master_transport.cs">
+      <DependentUpon>DBEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ItemServices.cs" />
     <Compile Include="Services\PekerjaServices.cs" />
     <Compile Include="Services\SqlGenericRepository.cs" />
+    <Compile Include="Services\SupplierServices.cs" />
+    <Compile Include="Services\TransportServices.cs" />
+    <Compile Include="Services\TRNBongkarMuatServices.cs" />
     <Compile Include="Services\UnitOfWorks.cs" />
+    <Compile Include="trn_bongkar_muat.cs">
+      <DependentUpon>DBEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="trn_bongkat_muat_details_pekerja.cs">
+      <DependentUpon>DBEntities.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="DBEntities.edmx">

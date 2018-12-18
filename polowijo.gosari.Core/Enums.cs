@@ -39,6 +39,7 @@ namespace polowijo.gosari.Core
         [Description("Tidak Kawin")]
         tidakkawin
     }
+    
     public class EnumDescriptionConverter : IValueConverter
     {
         private string GetEnumDescription(Enum enumObj)
@@ -77,5 +78,6 @@ namespace polowijo.gosari.Core
         {
             return string.Empty;
         }
+      
     }
 }

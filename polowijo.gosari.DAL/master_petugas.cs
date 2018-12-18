@@ -14,7 +14,12 @@ namespace polowijo.gosari.DAL
     
     public partial class master_petugas
     {
-        public decimal ID { get; set; }
+        public master_petugas()
+        {
+            this.trn_bongkat_muat_details_pekerja = new HashSet<trn_bongkat_muat_details_pekerja>();
+        }
+    
+        public int ID { get; set; }
         public string NAMA_PETUGAS { get; set; }
         public polowijo.gosari.Core.Status STATUS { get; set; }
         public string STATUS_PERKAWINAN { get; set; }
@@ -22,5 +27,7 @@ namespace polowijo.gosari.DAL
         public string HANDPHONE { get; set; }
         public string FIRST_NAME { get; set; }
         public string LAST_NAME { get; set; }
+    
+        public virtual ICollection<trn_bongkat_muat_details_pekerja> trn_bongkat_muat_details_pekerja { get; set; }
     }
 }

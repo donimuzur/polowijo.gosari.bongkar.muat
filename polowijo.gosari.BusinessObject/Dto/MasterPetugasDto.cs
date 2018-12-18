@@ -8,7 +8,7 @@ namespace polowijo.gosari.BusinessObject.Dto
 {
     public class MasterPetugasDto
     {
-        public decimal ID { get; set; }
+        public int ID { get; set; }
         public string NAMA_PETUGAS { get; set; }
         public polowijo.gosari.Core.Status STATUS { get; set; }
         public string STATUS_PERKAWINAN { get; set; }

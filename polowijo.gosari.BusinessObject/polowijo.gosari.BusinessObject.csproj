@@ -42,7 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dto\MasterItemDto.cs" />
     <Compile Include="Dto\MasterPetugasDto.cs" />
+    <Compile Include="Dto\MasterSupplierDto.cs" />
+    <Compile Include="Dto\MasterTransportDto.cs" />
+    <Compile Include="Dto\TRNBongkarMuatDetailsPekerjaDto.cs" />
+    <Compile Include="Dto\TRNBongkarMuatDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

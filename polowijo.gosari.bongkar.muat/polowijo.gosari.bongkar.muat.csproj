@@ -66,6 +66,30 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=3.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.4.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=3.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.4.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.4.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=3.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.4.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid, Version=3.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.4.0\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=3.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.4.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -73,9 +97,38 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Mapper\CustomMapper.cs" />
+    <Compile Include="Model\Master\ItemModel.cs" />
     <Compile Include="Model\Master\PekerjaModel.cs" />
+    <Compile Include="Model\Master\SupplierModel.cs" />
+    <Compile Include="Model\Master\TransportModel.cs" />
+    <Compile Include="Model\Master\TRNBongkarMuatDetailsPekerjaModel.cs" />
+    <Compile Include="Model\Master\TRNBongkarMuatModel.cs" />
+    <Compile Include="UI\HOME\Home_Details.xaml.cs">
+      <DependentUpon>Home_Details.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\HOME\Home_Insert.xaml.cs">
+      <DependentUpon>Home_Insert.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\HOME\Home_View.xaml.cs">
       <DependentUpon>Home_View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MASTER\MASTER ITEM\Item_Details.xaml.cs">
+      <DependentUpon>Item_Details.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MASTER\MASTER ITEM\Item_Insert.xaml.cs">
+      <DependentUpon>Item_Insert.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MASTER\MASTER ITEM\Item_View.xaml.cs">
+      <DependentUpon>Item_View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MASTER\MASTER SUPPLIER\Supplier_Details.xaml.cs">
+      <DependentUpon>Supplier_Details.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MASTER\MASTER SUPPLIER\Supplier_Insert.xaml.cs">
+      <DependentUpon>Supplier_Insert.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MASTER\MASTER SUPPLIER\Supplier_View.xaml.cs">
+      <DependentUpon>Supplier_View.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\MASTER\MASTER_MENU.xaml.cs">
       <DependentUpon>MASTER_MENU.xaml</DependentUpon>
@@ -89,6 +142,18 @@
     <Compile Include="UI\MASTER\MASTER_PETUGAS\Petugas_View.xaml.cs">
       <DependentUpon>Petugas_View.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\MASTER\MASTER_TRANSPORT\Transport_Details.xaml.cs">
+      <DependentUpon>Transport_Details.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MASTER\MASTER_TRANSPORT\Transport_Insert.xaml.cs">
+      <DependentUpon>Transport_Insert.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MASTER\MASTER_TRANSPORT\Transport_View.xaml.cs">
+      <DependentUpon>Transport_View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\_OTHERS\TimePicker.xaml.cs">
+      <DependentUpon>TimePicker.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -101,7 +166,39 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UI\HOME\Home_Details.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\HOME\Home_Insert.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\HOME\Home_View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\MASTER\MASTER ITEM\Item_Details.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\MASTER\MASTER ITEM\Item_Insert.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\MASTER\MASTER ITEM\Item_View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\MASTER\MASTER SUPPLIER\Supplier_Details.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\MASTER\MASTER SUPPLIER\Supplier_Insert.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\MASTER\MASTER SUPPLIER\Supplier_View.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -118,6 +215,22 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\MASTER\MASTER_PETUGAS\Petugas_View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\MASTER\MASTER_TRANSPORT\Transport_Details.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\MASTER\MASTER_TRANSPORT\Transport_Insert.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\MASTER\MASTER_TRANSPORT\Transport_View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\_OTHERS\TimePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -190,6 +303,13 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Image\Supplier.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Image\arrow-down.png" />
+    <Resource Include="Resources\Image\arrow-Up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Image\Truck.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
