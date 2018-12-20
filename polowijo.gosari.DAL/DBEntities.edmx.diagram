@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9974f249307947439ca6e3ef7614add0" Name="Diagram1">
+        <EntityTypeShape EntityType="DBModel.master_petugas" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="DBModel.master_supplier" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="DBModel.master_item" Width="1.5" PointX="3.375" PointY="3.75" />
+        <EntityTypeShape EntityType="DBModel.trn_bongkar_muat" Width="1.5" PointX="5.375" PointY="1.125" />
+        <EntityTypeShape EntityType="DBModel.trn_bongkat_muat_details_pekerja" Width="1.5" PointX="7.625" PointY="2.75" />
+        <AssociationConnector Association="DBModel.FK_TRN_BONGKAT_MUAT_DETAILS_PEKERJA_ID_TRN_BONGKAR_MUAT" />
+        <AssociationConnector Association="DBModel.FK_trn_bongkar_muat_BARANG" />
+        <AssociationConnector Association="DBModel.FK_trn_bongkat_muat_details_pekerja_PEKERJA" />
+        <AssociationConnector Association="DBModel.FK_trn_bongkar_muat_PENGIRIM" />
+        <EntityTypeShape EntityType="DBModel.master_transport" Width="1.5" PointX="0.75" PointY="4.875" />
+        <AssociationConnector Association="DBModel.FK_trn_bongkar_muat_NOPOL" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,200 @@
+﻿<Window x:Class="polowijo.gosari.bongkar.muat.UI.HOME.Home_Details"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:polowijo.gosari.bongkar.muat.UI.HOME"
+        xmlns:local1="clr-namespace:polowijo.gosari.Core;assembly=polowijo.gosari.Core"
+        xmlns:local2="clr-namespace:polowijo.gosari.BusinessObject.Dto;assembly=polowijo.gosari.BusinessObject"
+        xmlns:cntrl="clr-namespace:polowijo.gosari.bongkar.muat.UI._OTHERS"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d" x:Name="W1"         
+        Title="Input Data" Height="600" Width="780" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" BorderThickness="5" Background="White" WindowStyle="None">
+    <Window.Effect>
+        <DropShadowEffect RenderingBias="Quality"/>
+    </Window.Effect>
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Window.Loaded">
+            <EventTrigger.Actions>
+                <BeginStoryboard>
+                    <Storyboard Duration="00:00:3" Storyboard.TargetProperty="Opacity">
+                        <DoubleAnimation From="0" To="1"/>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger.Actions>
+        </EventTrigger>
+    </Window.Triggers>
+    <Window.Resources>
+        <local1:EnumDescriptionConverter x:Key="EnumDescriptionConverter"></local1:EnumDescriptionConverter>
+        <local2:TransportDtoConverter x:Key="TransportDtoConverter"></local2:TransportDtoConverter>
+        <local2:SupplierDtoConverter x:Key="SupplierDtoConverter"></local2:SupplierDtoConverter>
+        <local2:PetugasDtoConverter x:Key="PetugasDtoConverter"></local2:PetugasDtoConverter>
+        <local2:ItemDtoConverter x:Key="ItemDtoConverter"></local2:ItemDtoConverter>
+        <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type System:Enum}" x:Key="Status">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type Type="local1:Status" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type System:Enum}" x:Key="ItemType">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type Type="local1:ItemType" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type System:Enum}" x:Key="ActionType">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type Type="local1:ActionType" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+    <Grid>
+        <Grid Height="40" VerticalAlignment="Top" Background="#FF1F8AC7" MouseDown="Grid_MouseDown">
+            <TextBlock Text="Details Transaksi" Foreground="White" FontSize="24" FontFamily="Arial" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+        </Grid>
+        <DockPanel x:Name="MainView" Margin="0,40,0,0" Background="{x:Null}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" ></RowDefinition>
+                    <RowDefinition Height="100" ></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="250"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" >
+                    <StackPanel Orientation="Horizontal" Margin="10,0,0,0" >
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Width="100" Text="Kegiatan"></TextBlock>
+                            <ComboBox SelectedIndex="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" Width="200" x:Name="Kegiatan">
+                                <ComboBox.ItemsSource>
+                                    <CompositeCollection>
+                                        <ComboBoxItem Content="Please Select" />
+                                        <CollectionContainer Collection="{Binding Source={StaticResource ActionType}}" />
+                                    </CompositeCollection>
+                                </ComboBox.ItemsSource>
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={StaticResource EnumDescriptionConverter}}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="40,0,0,0">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Width="100" Text="Tanggal Kirim"></TextBlock>
+                            <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" Width="200" x:Name="TglKirim">
+                            </TextBox>
+                        </StackPanel>
+                        <TextBox x:Name="IdHome" Visibility="Hidden"></TextBox>
+                        <TextBox x:Name="Harga" Visibility="Hidden"></TextBox>
+                        <TextBox x:Name="TotalHarga" Visibility="Hidden"></TextBox>
+                        <TextBox x:Name="Ongkos" Visibility="Hidden"></TextBox>
+                        <TextBox x:Name="HargaKontainer" Visibility="Hidden"></TextBox>
+                        <TextBox x:Name="TotalKontainer" Visibility="Hidden"></TextBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="10,10,0,0" >
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Width="100" Text="Jenis Barang"></TextBlock>
+                        <ComboBox SelectedIndex="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" Width="200" x:Name="JenisBarang"  SelectionChanged="JenisBarang_SelectionChanged">
+                            <ComboBox.ItemsSource>
+                                <CompositeCollection>
+                                    <ComboBoxItem Content="Please Select" />
+                                    <CollectionContainer Collection="{Binding Source={StaticResource ItemType}}" />
+                                </CompositeCollection>
+                            </ComboBox.ItemsSource>
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Converter={StaticResource EnumDescriptionConverter}}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal"  Margin="10,10,0,0" >
+                        <StackPanel Orientation="Horizontal" >
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Width="100" Text="Nama Barang"></TextBlock>
+                            <ComboBox VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" Width="200" x:Name="NamaBarang">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={StaticResource ItemDtoConverter}}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="40,0,0,0">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Width="100" Text="Kwantum (KG)"></TextBlock>
+                            <TextBox  VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" Width="200" x:Name="Kwantum" PreviewTextInput="Kwantum_PreviewTextInput" >
+                            </TextBox>
+                        </StackPanel>
+
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal"  Margin="10,10,0,0" >
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Width="100" Text="Berangkat"></TextBlock>
+                            <cntrl:TimePicker x:Name="Berangkat" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,130,0" Width="100" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"  Margin="10,10,0,0" >
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Width="100" Text="Sampai"></TextBlock>
+                            <cntrl:TimePicker x:Name="Sampai" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" Width="100" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal"  Margin="10,10,0,0" >
+                        <TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Width="100" Text="Pekerja" Margin="0,10,0,0"></TextBlock>
+                        <StackPanel Orientation="Vertical"  VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0">
+                            <StackPanel Orientation="Horizontal" >
+                                <ComboBox  x:Name="NamaPetugas" Width="200">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Converter={StaticResource PetugasDtoConverter}}"/>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                                <Button Width="100" Margin="10,0,0,0" x:Name="Btn_Tambah_Pekerja" Click="Btn_Tambah_Pekerja_Click">Tambah</Button>
+                                <Button Width="100" Margin="10,0,0,0" Background="Gray" x:Name="Btn_Reset_Pekerja" Click="Btn_Reset_Pekerja_Click">Reset</Button>
+                            </StackPanel>
+                            <ListView Height="100" Background="Gainsboro" BorderBrush="#89FFFFFF" ScrollViewer.VerticalScrollBarVisibility="Visible" x:Name="ListPekerja">
+
+                            </ListView>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal"  Margin="10,10,0,0" >
+                        <StackPanel  Orientation="Horizontal">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Width="100" Text="Pengirim"></TextBlock>
+                            <ComboBox SelectedIndex="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" Width="200" x:Name="NamaPengirim">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={StaticResource SupplierDtoConverter}}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel  Orientation="Horizontal" Margin="40,0,0,0">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Width="100" Text="No Polisi"></TextBlock>
+                            <ComboBox SelectedIndex="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" Width="200" x:Name="NoPolisi">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={StaticResource TransportDtoConverter}}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
+
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal"  Margin="10,10,0,0" >
+                        <StackPanel  Orientation="Horizontal">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Width="100" Text="Muat Kontainer"></TextBlock>
+                            <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" Width="200" x:Name="MuatContainer" PreviewTextInput="MuatContainer_PreviewTextInput" >
+                            </TextBox>
+                        </StackPanel>
+                        <StackPanel  Orientation="Horizontal" Margin="40,0,0,0">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Width="140" Text="Uang Makan Shift III (Rp)"></TextBlock>
+                            <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" Width="160" x:Name="UangMakan" PreviewTextInput="UangMakan_PreviewTextInput">
+                            </TextBox>
+                        </StackPanel>
+
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Button x:Name="Btn_Simpan" Width="100" Click="Btn_Simpan_Click">Simpan</Button>
+                    <Button x:Name="Btn_Batal" Width="100" Margin="10,0,0,0" Foreground="Black" Background="LightGray" Click="Btn_Batal_Click">batal</Button>
+                </StackPanel>
+            </Grid>
+        </DockPanel>
+    </Grid>
+</Window>

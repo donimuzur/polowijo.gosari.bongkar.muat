@@ -1,0 +1,472 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DBModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="master_item">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="JENIS_BARANG" Type="int" Nullable="false" />
+          <Property Name="NAMA_BARANG" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="HARGA" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="ONGKOS_CONTAINER" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="STATUS" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="master_petugas">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NAMA_PETUGAS" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="STATUS" Type="int" Nullable="false" />
+          <Property Name="STATUS_PERKAWINAN" Type="varchar" MaxLength="50" />
+          <Property Name="ALAMAT" Type="text" />
+          <Property Name="HANDPHONE" Type="varchar" MaxLength="50" />
+          <Property Name="FIRST_NAME" Type="varchar" MaxLength="100" />
+          <Property Name="LAST_NAME" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="master_supplier">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NAMA_SUPPLIER" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ALAMAT_SUPPLIER" Type="text" />
+          <Property Name="KODE_WILAYAH" Type="int" />
+          <Property Name="STATUS" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="master_transport">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NO_POLISI" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="STATUS" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="trn_bongkar_muat">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TANGGAL_KIRIM" Type="datetime" Precision="0" Nullable="false" />
+          <Property Name="JENIS_BARANG" Type="int" Nullable="false" />
+          <Property Name="BERANGKAT" Type="timestamp" Precision="0" Nullable="false" />
+          <Property Name="SAMPAI" Type="timestamp" Precision="0" Nullable="false" />
+          <Property Name="LAMA_WAKTU" Type="timestamp" Precision="0" Nullable="false" />
+          <Property Name="PENGIRIM" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="NOPOL" Type="varchar" MaxLength="100" />
+          <Property Name="KWANTUM" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="HARGA" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="NAMA_BARANG" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="TOTAL_HARGA" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="ONGKOS" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="MUAT_KONTAINER" Type="decimal" Precision="10" Scale="4" />
+          <Property Name="HARGA_KONTAINER" Type="decimal" Precision="10" Scale="4" />
+          <Property Name="TOTAL_KONTAINER" Type="decimal" Precision="10" Scale="4" />
+          <Property Name="UANG_MAKAN" Type="decimal" Precision="10" Scale="4" />
+          <Property Name="JUMLAH_PEKERJA" Type="int" Nullable="false" />
+          <Property Name="ID_BARANG" Type="int" Nullable="false" />
+          <Property Name="KEGIATAN" Type="int" Nullable="false" />
+          <Property Name="ID_PENGIRIM" Type="int" Nullable="false" />
+          <Property Name="ID_NOPOL" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="trn_bongkat_muat_details_pekerja">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="ID_PEKERJA" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_TRN_BONGKAR_MUAT" Type="int" Nullable="false" />
+          <Property Name="NAMA_PEKERJA" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ID_PEKERJA" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_trn_bongkar_muat_BARANG">
+          <End Role="master_item" Type="Self.master_item" Multiplicity="1" />
+          <End Role="trn_bongkar_muat" Type="Self.trn_bongkar_muat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_item">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="trn_bongkar_muat">
+              <PropertyRef Name="ID_BARANG" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_trn_bongkar_muat_NOPOL">
+          <End Role="master_transport" Type="Self.master_transport" Multiplicity="1" />
+          <End Role="trn_bongkar_muat" Type="Self.trn_bongkar_muat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_transport">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="trn_bongkar_muat">
+              <PropertyRef Name="ID_NOPOL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_trn_bongkar_muat_PENGIRIM">
+          <End Role="master_supplier" Type="Self.master_supplier" Multiplicity="1" />
+          <End Role="trn_bongkar_muat" Type="Self.trn_bongkar_muat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_supplier">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="trn_bongkar_muat">
+              <PropertyRef Name="ID_PENGIRIM" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TRN_BONGKAT_MUAT_DETAILS_PEKERJA_ID_TRN_BONGKAR_MUAT">
+          <End Role="trn_bongkar_muat" Type="Self.trn_bongkar_muat" Multiplicity="1" />
+          <End Role="trn_bongkat_muat_details_pekerja" Type="Self.trn_bongkat_muat_details_pekerja" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="trn_bongkar_muat">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="trn_bongkat_muat_details_pekerja">
+              <PropertyRef Name="ID_TRN_BONGKAR_MUAT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_trn_bongkat_muat_details_pekerja_PEKERJA">
+          <End Role="master_petugas" Type="Self.master_petugas" Multiplicity="1" />
+          <End Role="trn_bongkat_muat_details_pekerja" Type="Self.trn_bongkat_muat_details_pekerja" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_petugas">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="trn_bongkat_muat_details_pekerja">
+              <PropertyRef Name="ID_PEKERJA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBModelStoreContainer">
+          <EntitySet Name="master_item" EntityType="Self.master_item" Schema="bongkar_muat" store:Type="Tables" />
+          <EntitySet Name="master_petugas" EntityType="Self.master_petugas" Schema="bongkar_muat" store:Type="Tables" />
+          <EntitySet Name="master_supplier" EntityType="Self.master_supplier" Schema="bongkar_muat" store:Type="Tables" />
+          <EntitySet Name="master_transport" EntityType="Self.master_transport" Schema="bongkar_muat" store:Type="Tables" />
+          <EntitySet Name="trn_bongkar_muat" EntityType="Self.trn_bongkar_muat" Schema="bongkar_muat" store:Type="Tables" />
+          <EntitySet Name="trn_bongkat_muat_details_pekerja" EntityType="Self.trn_bongkat_muat_details_pekerja" Schema="bongkar_muat" store:Type="Tables" />
+          <AssociationSet Name="FK_trn_bongkar_muat_BARANG" Association="Self.FK_trn_bongkar_muat_BARANG">
+            <End Role="master_item" EntitySet="master_item" />
+            <End Role="trn_bongkar_muat" EntitySet="trn_bongkar_muat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_trn_bongkar_muat_NOPOL" Association="Self.FK_trn_bongkar_muat_NOPOL">
+            <End Role="master_transport" EntitySet="master_transport" />
+            <End Role="trn_bongkar_muat" EntitySet="trn_bongkar_muat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_trn_bongkar_muat_PENGIRIM" Association="Self.FK_trn_bongkar_muat_PENGIRIM">
+            <End Role="master_supplier" EntitySet="master_supplier" />
+            <End Role="trn_bongkar_muat" EntitySet="trn_bongkar_muat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TRN_BONGKAT_MUAT_DETAILS_PEKERJA_ID_TRN_BONGKAR_MUAT" Association="Self.FK_TRN_BONGKAT_MUAT_DETAILS_PEKERJA_ID_TRN_BONGKAR_MUAT">
+            <End Role="trn_bongkar_muat" EntitySet="trn_bongkar_muat" />
+            <End Role="trn_bongkat_muat_details_pekerja" EntitySet="trn_bongkat_muat_details_pekerja" />
+          </AssociationSet>
+          <AssociationSet Name="FK_trn_bongkat_muat_details_pekerja_PEKERJA" Association="Self.FK_trn_bongkat_muat_details_pekerja_PEKERJA">
+            <End Role="master_petugas" EntitySet="master_petugas" />
+            <End Role="trn_bongkat_muat_details_pekerja" EntitySet="trn_bongkat_muat_details_pekerja" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ModelEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="master_petugas" EntityType="DBModel.master_petugas" />
+          <EntitySet Name="master_supplier" EntityType="DBModel.master_supplier" />
+          <EntitySet Name="master_item" EntityType="DBModel.master_item" />
+          <EntitySet Name="trn_bongkar_muat" EntityType="DBModel.trn_bongkar_muat" />
+          <EntitySet Name="trn_bongkat_muat_details_pekerja" EntityType="DBModel.trn_bongkat_muat_details_pekerja" />
+          <AssociationSet Name="FK_TRN_BONGKAT_MUAT_DETAILS_PEKERJA_ID_TRN_BONGKAR_MUAT" Association="DBModel.FK_TRN_BONGKAT_MUAT_DETAILS_PEKERJA_ID_TRN_BONGKAR_MUAT">
+            <End Role="trn_bongkar_muat" EntitySet="trn_bongkar_muat" />
+            <End Role="trn_bongkat_muat_details_pekerja" EntitySet="trn_bongkat_muat_details_pekerja" />
+          </AssociationSet>
+          <AssociationSet Name="FK_trn_bongkar_muat_BARANG" Association="DBModel.FK_trn_bongkar_muat_BARANG">
+            <End Role="master_item" EntitySet="master_item" />
+            <End Role="trn_bongkar_muat" EntitySet="trn_bongkar_muat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_trn_bongkat_muat_details_pekerja_PEKERJA" Association="DBModel.FK_trn_bongkat_muat_details_pekerja_PEKERJA">
+            <End Role="master_petugas" EntitySet="master_petugas" />
+            <End Role="trn_bongkat_muat_details_pekerja" EntitySet="trn_bongkat_muat_details_pekerja" />
+          </AssociationSet>
+          <AssociationSet Name="FK_trn_bongkar_muat_PENGIRIM" Association="DBModel.FK_trn_bongkar_muat_PENGIRIM">
+            <End Role="master_supplier" EntitySet="master_supplier" />
+            <End Role="trn_bongkar_muat" EntitySet="trn_bongkar_muat" />
+          </AssociationSet>
+          <EntitySet Name="master_transport" EntityType="DBModel.master_transport" />
+          <AssociationSet Name="FK_trn_bongkar_muat_NOPOL" Association="DBModel.FK_trn_bongkar_muat_NOPOL">
+            <End Role="master_transport" EntitySet="master_transport" />
+            <End Role="trn_bongkar_muat" EntitySet="trn_bongkar_muat" />
+          </AssociationSet>
+        </EntityContainer>
+        <EnumType Name="Status" a:ExternalTypeName="polowijo.gosari.Core.Status" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" UnderlyingType="Int32" />
+        <EnumType Name="ActionType" a:ExternalTypeName="polowijo.gosari.Core.ActionType" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+        <EnumType Name="ItemType" a:ExternalTypeName="polowijo.gosari.Core.ItemType" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+        <EntityType Name="master_petugas">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NAMA_PETUGAS" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="STATUS" Type="DBModel.Status" Nullable="false" />
+          <Property Name="STATUS_PERKAWINAN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ALAMAT" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="HANDPHONE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FIRST_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="trn_bongkat_muat_details_pekerja" Relationship="DBModel.FK_trn_bongkat_muat_details_pekerja_PEKERJA" FromRole="master_petugas" ToRole="trn_bongkat_muat_details_pekerja" />
+        </EntityType>
+        <EntityType Name="master_supplier">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NAMA_SUPPLIER" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ALAMAT_SUPPLIER" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="KODE_WILAYAH" Type="Int32" />
+          <Property Name="STATUS" Type="DBModel.Status" Nullable="false" />
+          <NavigationProperty Name="trn_bongkar_muat" Relationship="DBModel.FK_trn_bongkar_muat_PENGIRIM" FromRole="master_supplier" ToRole="trn_bongkar_muat" />
+        </EntityType>
+        <EntityType Name="master_item">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="JENIS_BARANG" Type="DBModel.ItemType" Nullable="false" />
+          <Property Name="NAMA_BARANG" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="HARGA" Type="Decimal" Nullable="false" />
+          <Property Name="ONGKOS_CONTAINER" Type="Decimal" Nullable="false" />
+          <Property Name="STATUS" Type="DBModel.Status" Nullable="false" />
+          <NavigationProperty Name="trn_bongkar_muat" Relationship="DBModel.FK_trn_bongkar_muat_BARANG" FromRole="master_item" ToRole="trn_bongkar_muat" />
+        </EntityType>
+        <EntityType Name="trn_bongkar_muat">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TANGGAL_KIRIM" Type="DateTime" Nullable="false" />
+          <Property Name="JENIS_BARANG" Type="DBModel.ItemType" Nullable="false" />
+          <Property Name="BERANGKAT" Type="DateTime" Nullable="false" />
+          <Property Name="SAMPAI" Type="DateTime" Nullable="false" />
+          <Property Name="LAMA_WAKTU" Type="DateTime" Nullable="false" />
+          <Property Name="PENGIRIM" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NOPOL" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="KWANTUM" Type="Decimal" />
+          <Property Name="HARGA" Type="Decimal" />
+          <Property Name="NAMA_BARANG" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TOTAL_HARGA" Type="Decimal" />
+          <Property Name="ONGKOS" Type="Decimal" />
+          <Property Name="MUAT_KONTAINER" Type="Decimal" />
+          <Property Name="HARGA_KONTAINER" Type="Decimal" />
+          <Property Name="TOTAL_KONTAINER" Type="Decimal" />
+          <Property Name="UANG_MAKAN" Type="Decimal" />
+          <Property Name="JUMLAH_PEKERJA" Type="Int32" Nullable="false" />
+          <Property Name="ID_BARANG" Type="Int32" Nullable="false" />
+          <Property Name="KEGIATAN" Type="DBModel.ActionType" Nullable="false" />
+          <NavigationProperty Name="trn_bongkat_muat_details_pekerja" Relationship="DBModel.FK_TRN_BONGKAT_MUAT_DETAILS_PEKERJA_ID_TRN_BONGKAR_MUAT" FromRole="trn_bongkar_muat" ToRole="trn_bongkat_muat_details_pekerja" />
+          <Property Name="ID_PENGIRIM" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="master_item" Relationship="DBModel.FK_trn_bongkar_muat_BARANG" FromRole="trn_bongkar_muat" ToRole="master_item" />
+          <NavigationProperty Name="master_supplier" Relationship="DBModel.FK_trn_bongkar_muat_PENGIRIM" FromRole="trn_bongkar_muat" ToRole="master_supplier" />
+          <Property Name="ID_NOPOL" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="master_transport" Relationship="DBModel.FK_trn_bongkar_muat_NOPOL" FromRole="trn_bongkar_muat" ToRole="master_transport" />
+        </EntityType>
+        <EntityType Name="trn_bongkat_muat_details_pekerja">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="ID_PEKERJA" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_TRN_BONGKAR_MUAT" Type="Int32" Nullable="false" />
+          <Property Name="NAMA_PEKERJA" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="trn_bongkar_muat" Relationship="DBModel.FK_TRN_BONGKAT_MUAT_DETAILS_PEKERJA_ID_TRN_BONGKAR_MUAT" FromRole="trn_bongkat_muat_details_pekerja" ToRole="trn_bongkar_muat" />
+          <Property Name="ID_PEKERJA" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="master_petugas" Relationship="DBModel.FK_trn_bongkat_muat_details_pekerja_PEKERJA" FromRole="trn_bongkat_muat_details_pekerja" ToRole="master_petugas" />
+        </EntityType>
+        <Association Name="FK_TRN_BONGKAT_MUAT_DETAILS_PEKERJA_ID_TRN_BONGKAR_MUAT">
+          <End Type="DBModel.trn_bongkar_muat" Role="trn_bongkar_muat" Multiplicity="1" />
+          <End Type="DBModel.trn_bongkat_muat_details_pekerja" Role="trn_bongkat_muat_details_pekerja" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="trn_bongkar_muat">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="trn_bongkat_muat_details_pekerja">
+              <PropertyRef Name="ID_TRN_BONGKAR_MUAT" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_trn_bongkar_muat_BARANG">
+          <End Type="DBModel.master_item" Role="master_item" Multiplicity="1" />
+          <End Type="DBModel.trn_bongkar_muat" Role="trn_bongkar_muat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_item">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="trn_bongkar_muat">
+              <PropertyRef Name="ID_BARANG" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_trn_bongkat_muat_details_pekerja_PEKERJA">
+          <End Type="DBModel.master_petugas" Role="master_petugas" Multiplicity="1" />
+          <End Type="DBModel.trn_bongkat_muat_details_pekerja" Role="trn_bongkat_muat_details_pekerja" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_petugas">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="trn_bongkat_muat_details_pekerja">
+              <PropertyRef Name="ID_PEKERJA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_trn_bongkar_muat_PENGIRIM">
+          <End Type="DBModel.master_supplier" Role="master_supplier" Multiplicity="1" />
+          <End Type="DBModel.trn_bongkar_muat" Role="trn_bongkar_muat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_supplier">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="trn_bongkar_muat">
+              <PropertyRef Name="ID_PENGIRIM" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="master_transport">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NO_POLISI" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="STATUS" Type="DBModel.Status" Nullable="false" />
+          <NavigationProperty Name="trn_bongkar_muat" Relationship="DBModel.FK_trn_bongkar_muat_NOPOL" FromRole="master_transport" ToRole="trn_bongkar_muat" />
+        </EntityType>
+        <Association Name="FK_trn_bongkar_muat_NOPOL">
+          <End Type="DBModel.master_transport" Role="master_transport" Multiplicity="1" />
+          <End Type="DBModel.trn_bongkar_muat" Role="trn_bongkar_muat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_transport">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="trn_bongkar_muat">
+              <PropertyRef Name="ID_NOPOL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DBModelStoreContainer" CdmEntityContainer="ModelEntities">
+          <EntitySetMapping Name="master_petugas">
+            <EntityTypeMapping TypeName="DBModel.master_petugas">
+              <MappingFragment StoreEntitySet="master_petugas">
+                <ScalarProperty Name="LAST_NAME" ColumnName="LAST_NAME" />
+                <ScalarProperty Name="FIRST_NAME" ColumnName="FIRST_NAME" />
+                <ScalarProperty Name="HANDPHONE" ColumnName="HANDPHONE" />
+                <ScalarProperty Name="ALAMAT" ColumnName="ALAMAT" />
+                <ScalarProperty Name="STATUS_PERKAWINAN" ColumnName="STATUS_PERKAWINAN" />
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="NAMA_PETUGAS" ColumnName="NAMA_PETUGAS" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="master_supplier">
+            <EntityTypeMapping TypeName="DBModel.master_supplier">
+              <MappingFragment StoreEntitySet="master_supplier">
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="KODE_WILAYAH" ColumnName="KODE_WILAYAH" />
+                <ScalarProperty Name="ALAMAT_SUPPLIER" ColumnName="ALAMAT_SUPPLIER" />
+                <ScalarProperty Name="NAMA_SUPPLIER" ColumnName="NAMA_SUPPLIER" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="master_item">
+            <EntityTypeMapping TypeName="DBModel.master_item">
+              <MappingFragment StoreEntitySet="master_item">
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="ONGKOS_CONTAINER" ColumnName="ONGKOS_CONTAINER" />
+                <ScalarProperty Name="HARGA" ColumnName="HARGA" />
+                <ScalarProperty Name="NAMA_BARANG" ColumnName="NAMA_BARANG" />
+                <ScalarProperty Name="JENIS_BARANG" ColumnName="JENIS_BARANG" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="trn_bongkar_muat">
+            <EntityTypeMapping TypeName="DBModel.trn_bongkar_muat">
+              <MappingFragment StoreEntitySet="trn_bongkar_muat">
+                <ScalarProperty Name="ID_NOPOL" ColumnName="ID_NOPOL" />
+                <ScalarProperty Name="ID_PENGIRIM" ColumnName="ID_PENGIRIM" />
+                <ScalarProperty Name="KEGIATAN" ColumnName="KEGIATAN" />
+                <ScalarProperty Name="ID_BARANG" ColumnName="ID_BARANG" />
+                <ScalarProperty Name="JUMLAH_PEKERJA" ColumnName="JUMLAH_PEKERJA" />
+                <ScalarProperty Name="UANG_MAKAN" ColumnName="UANG_MAKAN" />
+                <ScalarProperty Name="TOTAL_KONTAINER" ColumnName="TOTAL_KONTAINER" />
+                <ScalarProperty Name="HARGA_KONTAINER" ColumnName="HARGA_KONTAINER" />
+                <ScalarProperty Name="MUAT_KONTAINER" ColumnName="MUAT_KONTAINER" />
+                <ScalarProperty Name="ONGKOS" ColumnName="ONGKOS" />
+                <ScalarProperty Name="TOTAL_HARGA" ColumnName="TOTAL_HARGA" />
+                <ScalarProperty Name="NAMA_BARANG" ColumnName="NAMA_BARANG" />
+                <ScalarProperty Name="HARGA" ColumnName="HARGA" />
+                <ScalarProperty Name="KWANTUM" ColumnName="KWANTUM" />
+                <ScalarProperty Name="NOPOL" ColumnName="NOPOL" />
+                <ScalarProperty Name="PENGIRIM" ColumnName="PENGIRIM" />
+                <ScalarProperty Name="LAMA_WAKTU" ColumnName="LAMA_WAKTU" />
+                <ScalarProperty Name="SAMPAI" ColumnName="SAMPAI" />
+                <ScalarProperty Name="BERANGKAT" ColumnName="BERANGKAT" />
+                <ScalarProperty Name="JENIS_BARANG" ColumnName="JENIS_BARANG" />
+                <ScalarProperty Name="TANGGAL_KIRIM" ColumnName="TANGGAL_KIRIM" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="trn_bongkat_muat_details_pekerja">
+            <EntityTypeMapping TypeName="DBModel.trn_bongkat_muat_details_pekerja">
+              <MappingFragment StoreEntitySet="trn_bongkat_muat_details_pekerja">
+                <ScalarProperty Name="ID_PEKERJA" ColumnName="ID_PEKERJA" />
+                <ScalarProperty Name="NAMA_PEKERJA" ColumnName="NAMA_PEKERJA" />
+                <ScalarProperty Name="ID_TRN_BONGKAR_MUAT" ColumnName="ID_TRN_BONGKAR_MUAT" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="master_transport">
+            <EntityTypeMapping TypeName="DBModel.master_transport">
+              <MappingFragment StoreEntitySet="master_transport">
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="NO_POLISI" ColumnName="NO_POLISI" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
