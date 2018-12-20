@@ -52,9 +52,11 @@ namespace polowijo.gosari.bongkar.muat.UI.MASTER.MASTER_PETUGAS
         {
             try
             {
+                _pekerjaService = new PekerjaServices();
                 if (string.IsNullOrEmpty(NamaPetugas.Text))
                 {
                     MessageBox.Show("Nama Petugas tidak boleh kosong","Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    return;
                 };
 
                 var Dto = new MasterPetugasDto();
@@ -65,6 +67,14 @@ namespace polowijo.gosari.bongkar.muat.UI.MASTER.MASTER_PETUGAS
                 Dto.LAST_NAME = LastName.Text;
                 Dto.ID = int.Parse(IdPetugas.Text);
                 Dto.STATUS = (Status)StatusPetugas.SelectedItem;
+
+                var GetDataExisting = _pekerjaService.GetAll().Where(x => !string.IsNullOrEmpty(x.NAMA_PETUGAS) && x.NAMA_PETUGAS.ToUpper() == Dto.NAMA_PETUGAS.ToUpper()).FirstOrDefault();
+                if (GetDataExisting != null && GetDataExisting.ID !=Dto.ID)
+                {
+                    MessageBox.Show("Nama Petugas sudah ada", "Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    return;
+                }
+
                 _pekerjaService.Save(Dto);
                 MessageBox.Show("Update Data Sukses", "Sukses", MessageBoxButton.OK, MessageBoxImage.Information);
                 CloseWin();
@@ -83,6 +93,16 @@ namespace polowijo.gosari.bongkar.muat.UI.MASTER.MASTER_PETUGAS
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
             this.DragMove();
+        }
+        public static bool IsValid(string str)
+        {
+            long i;
+            return long.TryParse(str, out i) && i >= 0;
+        }
+
+        private void Handphone_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !IsValid(((TextBox)sender).Text + e.Text);
         }
     }
 }

@@ -42,9 +42,24 @@ namespace polowijo.gosari.bongkar.muat.UI.MASTER.MASTER_TRANSPORT
         {
             try
             {
+                _transportService = new TransportServices();
+
+                if(string.IsNullOrEmpty(NoPolisi.Text))
+                {
+                    MessageBox.Show("No Polisi tidak boleh kosong", "Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    return;
+                }
+
                 var Dto = new MasterTransportDto();
-                Dto.NO_POLISI = NoPolisi.Text;
+                Dto.NO_POLISI = NoPolisi.Text.ToUpper();
                 Dto.STATUS = Core.Status.Aktif;
+
+                var GetDataExisting = _transportService.GetAll().Where(x => !string.IsNullOrEmpty(x.NO_POLISI) && x.NO_POLISI == Dto.NO_POLISI).FirstOrDefault();
+                if (GetDataExisting != null)
+                {
+                    MessageBox.Show("No Polisi sudah ada", "Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    return;
+                }
 
                 _transportService.Save(Dto);
                 MessageBox.Show("Save Data Sukses", "Sukses", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -54,6 +69,11 @@ namespace polowijo.gosari.bongkar.muat.UI.MASTER.MASTER_TRANSPORT
             {
                 MessageBox.Show("Save Data Error", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
         }
     }
 }

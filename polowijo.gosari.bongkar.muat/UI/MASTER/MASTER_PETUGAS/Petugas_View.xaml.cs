@@ -158,9 +158,7 @@ namespace polowijo.gosari.bongkar.muat.UI.MASTER.MASTER_PETUGAS
                     PopulateData();
                 }
             }
-           
         }
-
         private void Hapus_Click(object sender, RoutedEventArgs e)
         {
             var idx = (MasterPetugasDto)Dgv_Home.SelectedItem;
@@ -184,12 +182,24 @@ namespace polowijo.gosari.bongkar.muat.UI.MASTER.MASTER_PETUGAS
                 }
             }
         }
-
         private void Filter_NamaPetugas_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
                 Filter_Click(sender, e);
+            }
+        }
+        private void Dgv_Home_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var idx = (MasterPetugasDto)Dgv_Home.SelectedItem;
+            if (idx != null)
+            {
+                _detailsWindow = new Petugas_Details(idx.ID);
+                var result = _detailsWindow.ShowDialog();
+                if (result == true)
+                {
+                    PopulateData();
+                }
             }
         }
     }

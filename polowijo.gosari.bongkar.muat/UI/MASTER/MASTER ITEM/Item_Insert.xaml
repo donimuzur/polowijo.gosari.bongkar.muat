@@ -41,7 +41,7 @@
         </ObjectDataProvider>
     </Window.Resources>
     <Grid>
-        <Grid Height="40" VerticalAlignment="Top" Background="#FF1F8AC7">
+        <Grid Height="40" VerticalAlignment="Top" Background="#FF1F8AC7" MouseDown="Grid_MouseDown">
             <TextBlock Text="Tambah Barang" Foreground="White" FontSize="24" FontFamily="Arial" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
         </Grid>
         <DockPanel x:Name="MainView" Margin="0,40,0,0" Background="{x:Null}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
@@ -57,14 +57,27 @@
                 <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" >
                     <StackPanel Orientation="Horizontal" Margin="10,0,0,0" >
                         <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Width="100" Text="Jenis Barang"></TextBlock>
-                        <ComboBox SelectedIndex="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" Width="200" x:Name="JenisBarang"
-                            ItemsSource="{Binding Source={StaticResource ItemType}}">
+                        <ComboBox SelectedIndex="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" Width="200" x:Name="JenisBarang">
+                            <ComboBox.ItemsSource>
+                                <CompositeCollection>
+                                    <ComboBoxItem Content="Please Select" />
+                                    <CollectionContainer Collection="{Binding Source={StaticResource ItemType}}" />
+                                </CompositeCollection>
+                            </ComboBox.ItemsSource>
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Converter={StaticResource EnumDescriptionConverter}}"/>
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
+                        <!--<ComboBox SelectedIndex="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" Width="200" x:Name="JenisBarang"
+                            ItemsSource="{Binding Source={StaticResource ItemType}}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Converter={StaticResource EnumDescriptionConverter}}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>-->
                     </StackPanel>
                     <StackPanel Orientation="Horizontal"  Margin="10,10,0,0" >
                         <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Width="100" Text="Nama Barang"></TextBlock>

@@ -52,11 +52,27 @@ namespace polowijo.gosari.bongkar.muat.UI.MASTER.MASTER_SUPPLIER
         {
             try
             {
+                _supplierServices = new SupplierServices();
+
+                if (string.IsNullOrEmpty(NamaSupplier.Text))
+                {
+                    MessageBox.Show("Nama Supplier tidak boleh kosong", "Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    return;
+                }
+
                 var Dto = new MasterSupplierDto();
                 Dto.NAMA_SUPPLIER = NamaSupplier.Text;
                 Dto.ALAMAT_SUPPLIER = Alamat.Text;
                 Dto.ID = Convert.ToInt32(IdSupplier.Text);
                 Dto.STATUS = (Status)StatusSupplier.SelectedItem;
+
+                var GetDataExisting = _supplierServices.GetAll().Where(x => !string.IsNullOrEmpty(x.NAMA_SUPPLIER) && x.NAMA_SUPPLIER.ToUpper() == Dto.NAMA_SUPPLIER.ToUpper()).FirstOrDefault();
+                if (GetDataExisting != null && GetDataExisting.ID != Dto.ID)
+                {
+                    MessageBox.Show("Nama Supplier sudah ada", "Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    return;
+                }
+
                 _supplierServices.Save(Dto);
                 MessageBox.Show("Update Data Sukses", "Sukses",MessageBoxButton.OK,MessageBoxImage.Information);
                 CloseWin();
@@ -65,11 +81,14 @@ namespace polowijo.gosari.bongkar.muat.UI.MASTER.MASTER_SUPPLIER
             {
                 MessageBox.Show("Update Data Error", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
         }
         private void Btn_Batal_Click(object sender, RoutedEventArgs e)
         {
             CloseWin();
+        }
+        private void W1_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
         }
     }
 }

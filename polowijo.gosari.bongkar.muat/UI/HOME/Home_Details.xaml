@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:polowijo.gosari.bongkar.muat.UI.HOME"
         xmlns:local1="clr-namespace:polowijo.gosari.Core;assembly=polowijo.gosari.Core"
+        xmlns:local2="clr-namespace:polowijo.gosari.BusinessObject.Dto;assembly=polowijo.gosari.BusinessObject"
         xmlns:cntrl="clr-namespace:polowijo.gosari.bongkar.muat.UI._OTHERS"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d" x:Name="W1"         
@@ -25,6 +26,10 @@
     </Window.Triggers>
     <Window.Resources>
         <local1:EnumDescriptionConverter x:Key="EnumDescriptionConverter"></local1:EnumDescriptionConverter>
+        <local2:TransportDtoConverter x:Key="TransportDtoConverter"></local2:TransportDtoConverter>
+        <local2:SupplierDtoConverter x:Key="SupplierDtoConverter"></local2:SupplierDtoConverter>
+        <local2:PetugasDtoConverter x:Key="PetugasDtoConverter"></local2:PetugasDtoConverter>
+        <local2:ItemDtoConverter x:Key="ItemDtoConverter"></local2:ItemDtoConverter>
         <ObjectDataProvider MethodName="GetValues" ObjectType="{x:Type System:Enum}" x:Key="Status">
             <ObjectDataProvider.MethodParameters>
                 <x:Type Type="local1:Status" />
@@ -42,7 +47,7 @@
         </ObjectDataProvider>
     </Window.Resources>
     <Grid>
-        <Grid Height="40" VerticalAlignment="Top" Background="#FF1F8AC7">
+        <Grid Height="40" VerticalAlignment="Top" Background="#FF1F8AC7" MouseDown="Grid_MouseDown">
             <TextBlock Text="Details Transaksi" Foreground="White" FontSize="24" FontFamily="Arial" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
         </Grid>
         <DockPanel x:Name="MainView" Margin="0,40,0,0" Background="{x:Null}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
@@ -57,11 +62,15 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" >
                     <StackPanel Orientation="Horizontal" Margin="10,0,0,0" >
-                        <TextBox x:Name="IdHome" Visibility="Hidden"></TextBox>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Width="100" Text="Kegiatan"></TextBlock>
-                            <ComboBox SelectedIndex="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" Width="200" x:Name="Kegiatan"
-                            ItemsSource="{Binding Source={StaticResource ActionType}}">
+                            <ComboBox SelectedIndex="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" Width="200" x:Name="Kegiatan">
+                                <ComboBox.ItemsSource>
+                                    <CompositeCollection>
+                                        <ComboBoxItem Content="Please Select" />
+                                        <CollectionContainer Collection="{Binding Source={StaticResource ActionType}}" />
+                                    </CompositeCollection>
+                                </ComboBox.ItemsSource>
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Converter={StaticResource EnumDescriptionConverter}}"/>
@@ -74,11 +83,22 @@
                             <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" Width="200" x:Name="TglKirim">
                             </TextBox>
                         </StackPanel>
+                        <TextBox x:Name="IdHome" Visibility="Hidden"></TextBox>
+                        <TextBox x:Name="Harga" Visibility="Hidden"></TextBox>
+                        <TextBox x:Name="TotalHarga" Visibility="Hidden"></TextBox>
+                        <TextBox x:Name="Ongkos" Visibility="Hidden"></TextBox>
+                        <TextBox x:Name="HargaKontainer" Visibility="Hidden"></TextBox>
+                        <TextBox x:Name="TotalKontainer" Visibility="Hidden"></TextBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="10,10,0,0" >
                         <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Width="100" Text="Jenis Barang"></TextBlock>
-                        <ComboBox SelectedIndex="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" Width="200" x:Name="JenisBarang"
-                            ItemsSource="{Binding Source={StaticResource ItemType}}" SelectionChanged="JenisBarang_SelectionChanged">
+                        <ComboBox SelectedIndex="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" Width="200" x:Name="JenisBarang"  SelectionChanged="JenisBarang_SelectionChanged">
+                            <ComboBox.ItemsSource>
+                                <CompositeCollection>
+                                    <ComboBoxItem Content="Please Select" />
+                                    <CollectionContainer Collection="{Binding Source={StaticResource ItemType}}" />
+                                </CompositeCollection>
+                            </ComboBox.ItemsSource>
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Converter={StaticResource EnumDescriptionConverter}}"/>
@@ -90,6 +110,11 @@
                         <StackPanel Orientation="Horizontal" >
                             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Width="100" Text="Nama Barang"></TextBlock>
                             <ComboBox VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" Width="200" x:Name="NamaBarang">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={StaticResource ItemDtoConverter}}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
                             </ComboBox>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="40,0,0,0">
@@ -113,7 +138,13 @@
                         <TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Width="100" Text="Pekerja" Margin="0,10,0,0"></TextBlock>
                         <StackPanel Orientation="Vertical"  VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0">
                             <StackPanel Orientation="Horizontal" >
-                                <ComboBox  x:Name="NamaPetugas" Width="200" PreviewTextInput="OngkosKontainer_PreviewTextInput"></ComboBox>
+                                <ComboBox  x:Name="NamaPetugas" Width="200">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Converter={StaticResource PetugasDtoConverter}}"/>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
                                 <Button Width="100" Margin="10,0,0,0" x:Name="Btn_Tambah_Pekerja" Click="Btn_Tambah_Pekerja_Click">Tambah</Button>
                                 <Button Width="100" Margin="10,0,0,0" Background="Gray" x:Name="Btn_Reset_Pekerja" Click="Btn_Reset_Pekerja_Click">Reset</Button>
                             </StackPanel>
@@ -126,11 +157,21 @@
                         <StackPanel  Orientation="Horizontal">
                             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Width="100" Text="Pengirim"></TextBlock>
                             <ComboBox SelectedIndex="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" Width="200" x:Name="NamaPengirim">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={StaticResource SupplierDtoConverter}}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
                             </ComboBox>
                         </StackPanel>
                         <StackPanel  Orientation="Horizontal" Margin="40,0,0,0">
                             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Width="100" Text="No Polisi"></TextBlock>
                             <ComboBox SelectedIndex="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" Width="200" x:Name="NoPolisi">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={StaticResource TransportDtoConverter}}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
                             </ComboBox>
                         </StackPanel>
 

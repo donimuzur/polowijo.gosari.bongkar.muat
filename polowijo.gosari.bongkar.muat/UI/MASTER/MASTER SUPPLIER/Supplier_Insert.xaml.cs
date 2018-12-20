@@ -41,10 +41,25 @@ namespace polowijo.gosari.bongkar.muat.UI.MASTER.MASTER_SUPPLIER
         {
             try
             {
+                _supplierServices = new SupplierServices();
+
+                if (string.IsNullOrEmpty(NamaSupplier.Text))
+                {
+                    MessageBox.Show("Nama Supplier tidak boleh kosong", "Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    return;
+                }
+
                 var Dto = new MasterSupplierDto();
                 Dto.NAMA_SUPPLIER = NamaSupplier.Text;
                 Dto.ALAMAT_SUPPLIER = Alamat.Text;
                 Dto.STATUS = Core.Status.Aktif;
+
+                var GetDataExisting = _supplierServices.GetAll().Where(x => !string.IsNullOrEmpty(x.NAMA_SUPPLIER) && x.NAMA_SUPPLIER.ToUpper() == Dto.NAMA_SUPPLIER.ToUpper()).FirstOrDefault();
+                if (GetDataExisting != null)
+                {
+                    MessageBox.Show("Nama Supplier sudah ada", "Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    return;
+                }
 
                 _supplierServices.Save(Dto);
                 MessageBox.Show("Save Data Sukses", "Sukses", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -54,6 +69,11 @@ namespace polowijo.gosari.bongkar.muat.UI.MASTER.MASTER_SUPPLIER
             {
                 MessageBox.Show("Save Data Error", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
         }
     }
 }

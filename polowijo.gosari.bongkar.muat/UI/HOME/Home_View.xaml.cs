@@ -231,16 +231,7 @@ namespace polowijo.gosari.bongkar.muat.UI.HOME
         }
         private void Filter_Click(object sender, RoutedEventArgs e)
         {
-            //filters.Clear();
-            //AddFilterAndRefresh("NAMA_BARANG", candidate => !string.IsNullOrWhiteSpace(candidate.NAMA_BARANG) && (candidate.NAMA_BARANG == null ? "".Contains(Filter_NamaBarang.Text) : candidate.NAMA_BARANG.ToUpper().Contains(Filter_NamaBarang.Text.ToUpper())));
-            //try
-            //{
-            //    var SelectedItem = (ComboBoxItem)Filter_JenisBarang.SelectedItem;
-            //}
-            //catch (Exception)
-            //{
-            //    AddFilterAndRefresh("JENIS_BARANG", candidate => candidate.JENIS_BARANG == (ItemType)Filter_JenisBarang.SelectedItem);
-            //}
+           
         }
         private void Reset_Click(object sender, RoutedEventArgs e)
         {
@@ -296,12 +287,27 @@ namespace polowijo.gosari.bongkar.muat.UI.HOME
                 }
             }
         }
-
         private void Filter_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
                 Filter_Click(sender, e);
+            }
+        }
+        private void Dgv_Home_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var idx = (TRNBongkarMuatDto)Dgv_Home.SelectedItem;
+
+            if (idx == null)
+            {
+                return;
+            }
+
+            _detailsWindow = new Home_Details(idx.ID);
+            var result = _detailsWindow.ShowDialog();
+            if (result == true)
+            {
+                PopulateData();
             }
         }
     }

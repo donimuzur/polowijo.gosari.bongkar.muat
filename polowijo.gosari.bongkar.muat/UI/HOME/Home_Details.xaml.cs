@@ -55,18 +55,36 @@ namespace polowijo.gosari.bongkar.muat.UI.HOME
 
             if (Data != null)
             {
-                IdHome.Text = Data.ID.ToString();
-                Kegiatan.SelectedItem = Data.KEGIATAN;
+                var Dto = AutoMapper.Mapper.Map<TRNBongkarMuatDto>(Data);
+                IdHome.Text = Dto.ID.ToString();
+
+                TglKirim.Text = Dto.TANGGAL_KIRIM.ToString("dd MMM yyyy");
+
+                Kegiatan.SelectedItem = Dto.KEGIATAN;
+                JenisBarang.SelectedItem = Dto.JENIS_BARANG;
+
+                NamaBarang.SelectedValuePath = "ID";
+                NamaBarang.SelectedValue = Dto.master_item.ID;
+
+                NamaPengirim.SelectedValuePath = "ID";
+                NamaPengirim.SelectedValue = Dto.master_supplier.ID;
+
+                NoPolisi.SelectedValuePath = "ID";
+                NoPolisi.SelectedValue = Dto.master_transport.ID;
+
+                Kwantum.Text = string.Format("{0:N0}", Dto.KWANTUM.Value);
+
+                Berangkat.Value = Dto.BERANGKAT.TimeOfDay;
+                Sampai.Value = Dto.SAMPAI.TimeOfDay;
+
+                Ongkos.Text = Dto.ONGKOS.ToString();
+
+                Harga.Text = Dto.HARGA.HasValue ? Dto.HARGA.Value.ToString("{0:N2}") : "0" ;
+                TotalHarga.Text = Dto.TOTAL_HARGA.HasValue ? Dto.TOTAL_HARGA.Value.ToString("{0:N0}") : "0";
+                HargaKontainer.Text = Dto.HARGA_KONTAINER.HasValue ? Dto.HARGA_KONTAINER.Value.ToString("{0:N0}"):"0";
+                TotalKontainer.Text = Dto.TOTAL_KONTAINER.HasValue ? Dto.TOTAL_KONTAINER.Value.ToString("{0:N0}") : "0"; 
                 
-                NamaBarang.Text = Data.NAMA_BARANG;
-                JenisBarang.SelectedItem = Data.JENIS_BARANG;
-                TglKirim.Text = Data.TANGGAL_KIRIM.ToString("dd MMM yyyy");
-                JenisBarang.SelectedItem = Data.JENIS_BARANG;
-                NamaBarang.SelectedItem = Data.ID_BARANG;
-                Kwantum.Text = string.Format("{0:N0}", Data.KWANTUM.Value);
-                Berangkat.Value = Data.BERANGKAT.TimeOfDay;
-                Sampai.Value = Data.SAMPAI.TimeOfDay;
-                var ListPetugas = Data.trn_bongkat_muat_details_pekerja.Select(x => x.master_petugas).ToList();
+                var ListPetugas = Dto.trn_bongkat_muat_details_pekerja.Select(x => x.master_petugas).ToList();
                 var ListPetugasDto = AutoMapper.Mapper.Map< List<MasterPetugasDto>>(ListPetugas);
                 foreach(var pekerja in ListPetugasDto )
                 {
@@ -74,8 +92,6 @@ namespace polowijo.gosari.bongkar.muat.UI.HOME
                     ListPekerja.DisplayMemberPath = "NAMA_PETUGAS";
                 }
             }
-
-            TglKirim.Text = DateTime.Now.ToString("yyyy MMM dd");
             TglKirim.IsReadOnly = true;
         }
         private void CloseWin()
@@ -91,9 +107,17 @@ namespace polowijo.gosari.bongkar.muat.UI.HOME
 
             _dataBarang.Filter = new Predicate<object>(FilterCandidates);
 
-            NamaBarang.ItemsSource = _dataBarang;
-            NamaBarang.SelectedValuePath = "ID";
-            NamaBarang.DisplayMemberPath = "NAMA_BARANG";
+            var TransportCompositeCollection = new CompositeCollection();
+            TransportCompositeCollection.Add(new ComboBoxItem() { Content = "Please Select" });
+            TransportCompositeCollection.Add(new CollectionContainer() { Collection = _dataBarang });
+
+            NamaBarang.ItemsSource = TransportCompositeCollection;
+
+            filters.Clear();
+            if (_dataBarang != null)
+                AddFilterAndRefresh("JENIS_BARANG", candidate => (JenisBarang.SelectedItem.GetType() == typeof(ItemType) && candidate.JENIS_BARANG == (ItemType)JenisBarang.SelectedItem));
+            //NamaBarang.SelectedValuePath = "ID";
+            //NamaBarang.DisplayMemberPath = "NAMA_BARANG";
             NamaBarang.SelectedIndex = 0;
         }
         private void PopulateComboboxPetugas()
@@ -102,9 +126,12 @@ namespace polowijo.gosari.bongkar.muat.UI.HOME
             var Data = AutoMapper.Mapper.Map<List<MasterPetugasDto>>(_pekerjaRepo.GetAll().Where(x => x.STATUS == Status.Aktif));
             _dataPetugas = CollectionViewSource.GetDefaultView(Data);
 
-            NamaPetugas.ItemsSource = _dataPetugas;
+            var TransportCompositeCollection = new CompositeCollection();
+            TransportCompositeCollection.Add(new ComboBoxItem() { Content = "Please Select" });
+            TransportCompositeCollection.Add(new CollectionContainer() { Collection = _dataPetugas });
+
+            NamaPetugas.ItemsSource = TransportCompositeCollection;
             NamaPetugas.SelectedValuePath = "ID";
-            NamaPetugas.DisplayMemberPath = "NAMA_PETUGAS";
             NamaPetugas.SelectedIndex = 0;
         }
         private void PopulateComboboxNamaPengirim()
@@ -113,9 +140,12 @@ namespace polowijo.gosari.bongkar.muat.UI.HOME
             var Data = AutoMapper.Mapper.Map<List<MasterSupplierDto>>(_supplierServices.GetAll().Where(x => x.STATUS == Status.Aktif));
             _dataSupplier = CollectionViewSource.GetDefaultView(Data);
 
-            NamaPengirim.ItemsSource = _dataSupplier;
+            var TransportCompositeCollection = new CompositeCollection();
+            TransportCompositeCollection.Add(new ComboBoxItem() { Content = "Please Select" });
+            TransportCompositeCollection.Add(new CollectionContainer() { Collection = _dataSupplier });
+
+            NamaPengirim.ItemsSource = TransportCompositeCollection;
             NamaPengirim.SelectedValuePath = "ID";
-            NamaPengirim.DisplayMemberPath = "NAMA_SUPPLIER";
             NamaPengirim.SelectedIndex = 0;
         }
         private void PopulateComboboxNoPolisi()
@@ -124,9 +154,12 @@ namespace polowijo.gosari.bongkar.muat.UI.HOME
             var Data = AutoMapper.Mapper.Map<List<MasterTransportDto>>(_transportServices.GetAll().Where(x => x.STATUS == Status.Aktif));
             _dataTransport = CollectionViewSource.GetDefaultView(Data);
 
-            NoPolisi.ItemsSource = _dataTransport;
+            var TransportCompositeCollection = new CompositeCollection();
+            TransportCompositeCollection.Add(new ComboBoxItem() { Content = "Please Select" });
+            TransportCompositeCollection.Add(new CollectionContainer() { Collection = _dataTransport });
+
+            NoPolisi.ItemsSource = TransportCompositeCollection;
             NoPolisi.SelectedValuePath = "ID";
-            NoPolisi.DisplayMemberPath = "NO_POLISI";
             NoPolisi.SelectedIndex = 0;
         }
         private bool FilterCandidates(object obj)
@@ -150,7 +183,78 @@ namespace polowijo.gosari.bongkar.muat.UI.HOME
         {
             try
             {
+                if (Kegiatan.SelectedItem.GetType() != typeof(ActionType))
+                {
+                    MessageBox.Show("Kegiatan harus dipilih", "Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    Kegiatan.Focus();
+                    return;
+                }
+
+                if (JenisBarang.SelectedItem.GetType() != typeof(ItemType))
+                {
+                    MessageBox.Show("Jenis Barang harus dipilih", "Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    JenisBarang.Focus();
+                    return;
+                }
+
+                if (NamaBarang.SelectedItem.GetType() != typeof(MasterItemDto))
+                {
+                    MessageBox.Show("Nama Barang harus dipilih", "Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    NamaBarang.Focus();
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(Kwantum.Text))
+                {
+                    MessageBox.Show("Kwantum (KG) tidak boleh kosong", "Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    Kwantum.Focus();
+                    return;
+                }
+
+                if (ListPekerja.Items.Count == 0)
+                {
+                    MessageBox.Show("Pekerja tidak boleh kosong", "Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    NamaPetugas.Focus();
+                    return;
+                }
+
+                if (NoPolisi.SelectedItem.GetType() != typeof(MasterTransportDto))
+                {
+                    MessageBox.Show("No Polisi harus dipilih", "Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    NoPolisi.Focus();
+                    return;
+                }
+
+                if (NamaPengirim.SelectedItem.GetType() != typeof(MasterSupplierDto))
+                {
+                    MessageBox.Show("Pengirim harus dipilih", "Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    NamaPengirim.Focus();
+                    return;
+                }
+
+                if (Berangkat.Value == new TimeSpan(0, 0, 0))
+                {
+                    MessageBox.Show("Waktu berangkat harus lebih dari jam 00:00:00", "Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    Berangkat.Focus();
+                    return;
+                }
+
+                if (Sampai.Value == new TimeSpan(0, 0, 0))
+                {
+                    MessageBox.Show("Waktu sampai harus lebih dari jam 00:00:00", "Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    Sampai.Focus();
+                    return;
+                }
+
+                if (Sampai.Value <= Berangkat.Value)
+                {
+                    MessageBox.Show("Waktu sampai harus lebih dari waktu Berangkat", "Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    Sampai.Focus();
+                    return;
+                }
+
                 var Dto = new TRNBongkarMuatDto();
+
                 var Barang = (MasterItemDto)NamaBarang.SelectedItem;
                 var Transport = (MasterTransportDto)NoPolisi.SelectedItem;
                 var Pengirim = (MasterSupplierDto)NamaPengirim.SelectedItem;
@@ -168,17 +272,27 @@ namespace polowijo.gosari.bongkar.muat.UI.HOME
                 Dto.KEGIATAN = (ActionType)Kegiatan.SelectedItem;
                 Dto.KWANTUM = decimal.Parse(Kwantum.Text);
 
-                var LamaWaktu = Dto.SAMPAI.Subtract(Dto.BERANGKAT);
-                Dto.LAMA_WAKTU = new DateTime(Dto.TANGGAL_KIRIM.Year, Dto.TANGGAL_KIRIM.Month, Dto.TANGGAL_KIRIM.Day, LamaWaktu.Hours, LamaWaktu.Minutes, LamaWaktu.Seconds);
-                Dto.MUAT_KONTAINER = (string.IsNullOrEmpty(MuatContainer.Text) ? 0 : decimal.Parse(MuatContainer.Text));
+                var LamaWaktu = Dto.SAMPAI.Add(Dto.BERANGKAT.TimeOfDay);
+                Dto.LAMA_WAKTU = new DateTime(Dto.TANGGAL_KIRIM.Year, Dto.TANGGAL_KIRIM.Month, Dto.TANGGAL_KIRIM.Day, LamaWaktu.Hour, LamaWaktu.Minute, LamaWaktu.Second);
+
                 Dto.NAMA_BARANG = Barang.NAMA_BARANG;
                 Dto.NOPOL = Transport.NO_POLISI;
                 Dto.PENGIRIM = Pengirim.NAMA_SUPPLIER;
                 Dto.TOTAL_HARGA = Dto.KWANTUM * Dto.HARGA;
-                Dto.ONGKOS = Dto.TOTAL_HARGA / (decimal)(ListPekerja.Items.Count == 0 ? 1 : ListPekerja.Items.Count);
-                Dto.TOTAL_KONTAINER = Dto.MUAT_KONTAINER * Barang.ONGKOS_CONTAINER;
-                Dto.UANG_MAKAN = (string.IsNullOrEmpty(UangMakan.Text) ? 0 : decimal.Parse(UangMakan.Text)); ;
+                Dto.ONGKOS = Dto.TOTAL_HARGA / ((decimal)ListPekerja.Items.Count);
                 Dto.ID_NOPOL = Transport.ID;
+
+                //not mandatory
+                if (!string.IsNullOrEmpty(UangMakan.Text))
+                {
+                    Dto.UANG_MAKAN = decimal.Parse(UangMakan.Text);
+                }
+
+                if (!string.IsNullOrEmpty(MuatContainer.Text))
+                {
+                    Dto.MUAT_KONTAINER = decimal.Parse(MuatContainer.Text);
+                    Dto.TOTAL_KONTAINER = Dto.MUAT_KONTAINER * Barang.ONGKOS_CONTAINER;
+                }
 
                 var ListPetugas = ListPekerja.Items.Cast<MasterPetugasDto>()
                                  .Select(item => item)
@@ -197,16 +311,21 @@ namespace polowijo.gosari.bongkar.muat.UI.HOME
         }
         private void HargaBarang_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = !IsValid(((TextBox)sender).Text + e.Text);
+            e.Handled = !IsValidDecimal(((TextBox)sender).Text + e.Text);
         }
         private void OngkosKontainer_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = !IsValid(((TextBox)sender).Text + e.Text);
+            e.Handled = !IsValidDecimal(((TextBox)sender).Text + e.Text);
         }
-        public static bool IsValid(string str)
+        public static bool IsValidDecimal(string str)
         {
-            int i;
-            return int.TryParse(str, out i) && i >= 1;
+            double i;
+            return double.TryParse(str, out i) && i >= 1;
+        }
+        public static bool IsValidInteger(string str)
+        {
+            Int64 i;
+            return Int64.TryParse(str, out i) && i >= 1;
         }
         private void Btn_Tambah_Pekerja_Click(object sender, RoutedEventArgs e)
         {
@@ -216,36 +335,57 @@ namespace polowijo.gosari.bongkar.muat.UI.HOME
                                  .ToList();
             var selectedMasterPetugas = (MasterPetugasDto)NamaPetugas.SelectedItem;
             if (lItem.Where(x => x.ID == selectedMasterPetugas.ID).Count() > 0)
-                MessageBox.Show("Pekerja Sudah Ada", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-            else
             {
-                ListPekerja.Items.Add(NamaPetugas.SelectedItem);
-                ListPekerja.DisplayMemberPath = "NAMA_PETUGAS";
+                MessageBox.Show("Pekerja Sudah Ada", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                NamaPetugas.Focus();
+                return;
             }
+
+            if (NamaPetugas.SelectedItem.GetType() != typeof(MasterPetugasDto))
+            {
+                MessageBox.Show("Pilih pekerja terlebih dahulu", "Info", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                NamaPetugas.Focus();
+                return;
+            }
+
+            if (ListPekerja.Items.Contains(NamaPetugas.SelectedItem))
+            {
+                MessageBox.Show("Pekerja Sudah Ada", "Info", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                NamaPetugas.Focus();
+                return;
+            }
+            ListPekerja.Items.Add(NamaPetugas.SelectedItem);
+            ListPekerja.DisplayMemberPath = "NAMA_PETUGAS";
         }
         private void Btn_Reset_Pekerja_Click(object sender, RoutedEventArgs e)
         {
             ListPekerja.Items.Clear();
+            NamaPetugas.SelectedIndex = 0;
         }
         private void Kwantum_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = !IsValid(((TextBox)sender).Text + e.Text);
+            e.Handled = !IsValidDecimal(((TextBox)sender).Text + e.Text);
         }
         private void JenisBarang_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             filters.Clear();
             if (_dataBarang != null)
-                AddFilterAndRefresh("JENIS_BARANG", candidate => (candidate.JENIS_BARANG == (ItemType)JenisBarang.SelectedItem));
+                AddFilterAndRefresh("JENIS_BARANG", candidate => (JenisBarang.SelectedItem.GetType() == typeof(ItemType) && candidate.JENIS_BARANG == (ItemType)JenisBarang.SelectedItem));
         }
 
         private void MuatContainer_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = !IsValid(((TextBox)sender).Text + e.Text);
+            e.Handled = !IsValidDecimal(((TextBox)sender).Text + e.Text);
         }
 
         private void UangMakan_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = !IsValid(((TextBox)sender).Text + e.Text);
+            e.Handled = !IsValidDecimal(((TextBox)sender).Text + e.Text);
+        }
+
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
         }
     }
 }

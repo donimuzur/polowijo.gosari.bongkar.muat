@@ -35,7 +35,9 @@
                             <Expander.Header>
                                 <TextBlock  Text="{Binding Name}" FontFamily="Arial" FontWeight="Bold"></TextBlock>
                             </Expander.Header>
-                            <ItemsPresenter></ItemsPresenter>
+                            <ItemsPresenter>
+                                
+                            </ItemsPresenter>
                         </Expander>
                     </ControlTemplate>
                 </Setter.Value> 
@@ -67,11 +69,11 @@
                 <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5">
                     <StackPanel Orientation="Horizontal" Margin="10,0,0,0"  HorizontalAlignment="Left" VerticalAlignment="Center">
                         <TextBlock Width="75" Foreground="Black" Text="Nama Barang" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                        <TextBox x:Name="Filter_NamaBarang" Margin="10,0,0,0" Width="120" Foreground="Black"></TextBox>
+                        <TextBox x:Name="Filter_NamaBarang" Margin="10,0,0,0" Width="120" Foreground="Black" KeyDown="Filter_KeyDown"></TextBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="30,0,0,0"  HorizontalAlignment="Left" VerticalAlignment="Center">
                         <TextBlock Width="75" Foreground="Black" Text="Jenis Barang" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                        <ComboBox x:Name="Filter_JenisBarang" SelectedIndex="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" Width="200" Background="White" Foreground="Black">
+                        <ComboBox x:Name="Filter_JenisBarang" SelectedIndex="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" Width="200" Background="White" Foreground="Black" KeyDown="Filter_KeyDown">
                             <ComboBox.ItemsSource>
                                 <CompositeCollection>
                                     <ComboBoxItem Content="All" />
@@ -100,7 +102,7 @@
         <Grid Grid.Row="1" Grid.Column="0">
             <!--#region ~~~~ DataGridView ~~~~ -->
             <DockPanel Margin="0,0,100,0" >
-                <DataGrid x:Name="Dgv_Home" IsReadOnly="True" CanUserReorderColumns="False" CanUserResizeColumns="False">
+                <DataGrid x:Name="Dgv_Home" IsReadOnly="True" CanUserReorderColumns="False" CanUserResizeColumns="False" MouseDoubleClick="Dgv_Home_MouseDoubleClick">
                     <DataGrid.GroupStyle>
                         <GroupStyle ContainerStyle="{StaticResource GroupHeaderStyle}">
                             <GroupStyle.Panel>

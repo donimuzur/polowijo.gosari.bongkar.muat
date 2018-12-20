@@ -7,7 +7,7 @@
         xmlns:local1="clr-namespace:polowijo.gosari.Core;assembly=polowijo.gosari.Core"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d" x:Name="W1"         
-        Title="Supplier Details" Height="500" Width="780" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" BorderThickness="5" Background="White" WindowStyle="None">
+        Title="Supplier Details" Height="500" Width="780" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" BorderThickness="5" Background="White" WindowStyle="None" MouseDown="W1_MouseDown">
     <Window.Effect>
         <DropShadowEffect RenderingBias="Quality"/>
     </Window.Effect>

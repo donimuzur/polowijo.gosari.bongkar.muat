@@ -151,6 +151,9 @@
     <Compile Include="UI\MASTER\MASTER_TRANSPORT\Transport_View.xaml.cs">
       <DependentUpon>Transport_View.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\REPORTS\REPORT_MENU.xaml.cs">
+      <DependentUpon>REPORT_MENU.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\_OTHERS\TimePicker.xaml.cs">
       <DependentUpon>TimePicker.xaml</DependentUpon>
     </Compile>
@@ -230,6 +233,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\REPORTS\REPORT_MENU.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\_OTHERS\TimePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -265,7 +272,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\Icon\" />
-    <Folder Include="UI\REPORTS\" />
     <Folder Include="UI\SETTING\" />
   </ItemGroup>
   <ItemGroup>

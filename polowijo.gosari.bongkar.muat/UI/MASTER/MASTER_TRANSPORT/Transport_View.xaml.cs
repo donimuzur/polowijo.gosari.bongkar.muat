@@ -73,7 +73,7 @@ namespace polowijo.gosari.bongkar.muat.UI.MASTER.MASTER_TRANSPORT
             Dgv_Home.Columns.Add(dummy);
 
             NoPolisi.Width = 200;
-            Status.Width = 100;
+            Status.Width = 150;
             dummy.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
 
             Id.Visibility = Visibility.Hidden;
@@ -167,6 +167,20 @@ namespace polowijo.gosari.bongkar.muat.UI.MASTER.MASTER_TRANSPORT
             if (e.Key == Key.Enter)
             {
                 Filter_Click(sender, e);
+            }
+        }
+
+        private void Dgv_Home_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var idx = (MasterTransportDto)Dgv_Home.SelectedItem;
+            if (idx != null)
+            {
+                _detailsWindow = new Transport_Details(idx.ID);
+                var result = _detailsWindow.ShowDialog();
+                if (result == true)
+                {
+                    PopulateData();
+                }
             }
         }
     }

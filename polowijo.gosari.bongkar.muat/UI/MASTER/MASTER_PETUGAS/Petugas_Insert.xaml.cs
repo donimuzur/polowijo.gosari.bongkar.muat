@@ -57,6 +57,13 @@ namespace polowijo.gosari.bongkar.muat.UI.MASTER.MASTER_PETUGAS
                 Dto.LAST_NAME = LastName.Text;
                 Dto.STATUS = Core.Status.Aktif;
 
+                var GetDataExisting = _pekerjaService.GetAll().Where(x => !string.IsNullOrEmpty(x.NAMA_PETUGAS) && x.NAMA_PETUGAS.ToUpper() == Dto.NAMA_PETUGAS.ToUpper()).FirstOrDefault();
+                if (GetDataExisting != null )
+                {
+                    MessageBox.Show("Nama Petugas sudah ada", "Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    return;
+                }
+
                 _pekerjaService.Save(Dto);
 
                 MessageBox.Show("Save Data Sukses", "Sukses", MessageBoxButton.OK, MessageBoxImage.Information);

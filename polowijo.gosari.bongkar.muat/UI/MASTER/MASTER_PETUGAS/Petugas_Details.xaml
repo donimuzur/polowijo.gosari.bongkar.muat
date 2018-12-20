@@ -42,7 +42,7 @@
     </Window.Resources>
     <Grid>
         <Grid Height="40" VerticalAlignment="Top" Background="#FF1F8AC7" MouseDown="Grid_MouseDown">
-            <TextBlock Text="Petugas Details" Foreground="White" FontSize="24" FontFamily="Arial" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+            <TextBlock Text="Detail Petugas" Foreground="White" FontSize="24" FontFamily="Arial" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
         </Grid>
         <DockPanel x:Name="MainView" Margin="0,40,0,0" Background="{x:Null}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <Grid>
@@ -62,17 +62,17 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal"  Margin="10,10,0,0" >
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Width="100" Text="First Name"></TextBlock>
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Width="100" Text="Nama Depan"></TextBlock>
                             <TextBox x:Name="FirstName" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" Width="200"></TextBox>
                         </StackPanel >
                         <StackPanel Orientation="Horizontal" Margin="20,0,0,0">
-                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Width="100" Text="Last Name"></TextBlock>
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Width="100" Text="Nama Belakang"></TextBlock>
                             <TextBox x:Name="LastName" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" Width="200"></TextBox>
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal"  Margin="10,10,0,0" >
-                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Width="100" Text="Handphone"></TextBlock>
-                        <TextBox x:Name="Handphone" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" Width="200"></TextBox>
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Width="100" Text="No HP"></TextBlock>
+                        <TextBox x:Name="Handphone" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" Width="200" PreviewTextInput="Handphone_PreviewTextInput"></TextBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal"  Margin="10,10,0,0" >
                         <TextBlock VerticalAlignment="Top" HorizontalAlignment="Left" Width="100" Text="Alamat" Margin="0,10,0,0"></TextBlock>

@@ -71,13 +71,10 @@ namespace polowijo.gosari.Core
 
                 return "Please Select";
             }
-            
         }
-
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return string.Empty;
         }
-      
     }
 }

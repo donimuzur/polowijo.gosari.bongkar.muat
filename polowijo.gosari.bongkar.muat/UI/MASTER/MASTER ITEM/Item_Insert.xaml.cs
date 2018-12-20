@@ -42,12 +42,47 @@ namespace polowijo.gosari.bongkar.muat.UI.MASTER.MASTER_ITEM
         {
             try
             {
+                _itemServices = new ItemServices();
+
+                if(JenisBarang.SelectedItem.GetType() != typeof(ItemType))
+                {
+                    MessageBox.Show("Jenis Barang harus dipilih", "Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    return;
+                }
+
+                if(string.IsNullOrEmpty(NamaBarang.Text))
+                {
+                    MessageBox.Show("Nama Barang tidak boleh kosong", "Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(HargaBarang.Text))
+                {
+                    MessageBox.Show("Harga Barang tidak boleh kosong", "Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(OngkosKontainer.Text))
+                {
+                    MessageBox.Show("Ongkos Kontainer tidak boleh kosong", "Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    return;
+                }
+
                 var Dto = new MasterItemDto();
                 Dto.NAMA_BARANG = NamaBarang.Text;
                 Dto.HARGA = decimal.Parse(HargaBarang.Text);
                 Dto.JENIS_BARANG = (ItemType)JenisBarang.SelectedItem;
                 Dto.ONGKOS_CONTAINER= decimal.Parse(OngkosKontainer.Text);
                 Dto.STATUS = Core.Status.Aktif;
+
+                var DataExisting = _itemServices.GetAll().Where(x => !string.IsNullOrEmpty(x.NAMA_BARANG) && 
+                x.NAMA_BARANG.ToUpper() == Dto.NAMA_BARANG.ToUpper() && x.JENIS_BARANG == Dto.JENIS_BARANG).FirstOrDefault();
+
+                if(DataExisting != null)
+                {
+                    MessageBox.Show("Barang sudah ada di database", "Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    return;
+                }
 
                 _itemServices.Save(Dto);
                 MessageBox.Show("Save Data Sukses", "Sukses", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -58,7 +93,6 @@ namespace polowijo.gosari.bongkar.muat.UI.MASTER.MASTER_ITEM
                 MessageBox.Show("Save Data Error", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
         private void HargaBarang_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = !IsValid(((TextBox)sender).Text + e.Text);
@@ -69,8 +103,13 @@ namespace polowijo.gosari.bongkar.muat.UI.MASTER.MASTER_ITEM
         }
         public static bool IsValid(string str)
         {
-            int i;
-            return int.TryParse(str, out i) && i >= 1;
+            decimal i;
+            return decimal.TryParse(str, out i) && i >= 1;
+        }
+
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
         }
     }
 }

@@ -123,7 +123,7 @@
         <Grid Grid.Row="1" Grid.Column="0">
             <!--#region ~~~~ DataGridView ~~~~ -->
             <DockPanel Margin="0,0,100,0" >
-                <DataGrid x:Name="Dgv_Home" IsReadOnly="True" CanUserReorderColumns="False" CanUserResizeColumns="False" MinColumnWidth="150">
+                <DataGrid x:Name="Dgv_Home" IsReadOnly="True" CanUserReorderColumns="False" CanUserResizeColumns="False" MinColumnWidth="150" MouseDoubleClick="Dgv_Home_MouseDoubleClick" >
                     <DataGrid.GroupStyle>
                         <GroupStyle ContainerStyle="{StaticResource GroupHeaderStyle}">
                             <GroupStyle.Panel>

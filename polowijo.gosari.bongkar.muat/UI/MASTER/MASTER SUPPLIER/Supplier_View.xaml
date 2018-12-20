@@ -33,11 +33,10 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5">
                     <StackPanel Orientation="Horizontal" Margin="10,0,0,0"  HorizontalAlignment="Left" VerticalAlignment="Center">
-                        <TextBlock Width="75" Foreground="Black" Text="Nama Supplier" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        <TextBlock Width="100" Foreground="Black" Text="Nama Supplier" VerticalAlignment="Center" HorizontalAlignment="Center" />
                         <TextBox x:Name="Filter_NamaSupplier" Margin="10,0,0,0" Width="120" Foreground="Black" KeyDown="Filter_NamaSupplier_KeyDown"></TextBox>
                     </StackPanel>
                 </StackPanel>
-
                 <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4">
                     <StackPanel Orientation="Horizontal" Margin="238,0,0,0" >
                         <Button x:Name="Filter" FontSize="12" Width="60" Margin="5" Height="30" Click="Filter_Click" >Filter</Button>
@@ -51,7 +50,7 @@
         <Grid Grid.Row="1" Grid.Column="0">
             <!--#region ~~~~ DataGridView ~~~~ -->
             <DockPanel Margin="0,0,100,0" >
-                <DataGrid x:Name="Dgv_Home" ColumnWidth="*" IsReadOnly="True" CanUserReorderColumns="False" CanUserResizeColumns="False">
+                <DataGrid x:Name="Dgv_Home" MinColumnWidth="150" IsReadOnly="True" CanUserReorderColumns="False" CanUserResizeColumns="False" MouseDoubleClick="Dgv_Home_MouseDoubleClick">
 
                 </DataGrid>
 
